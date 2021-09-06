@@ -25,7 +25,7 @@ io.on('connection', socket=>{
             var rim = clients-3
             for(var i=0; i<rim; i++){
                 
-                ruoli.push('contadino')
+                ruoli.push('cittadino')
             }
         }
         ruoli.sort(function(a, b){return 0.5 - Math.random()})
@@ -33,6 +33,7 @@ io.on('connection', socket=>{
         for(var a of aa){
             io.to(a).emit('ruolo', ruoli[t])
             t++
+            
         }
         
         

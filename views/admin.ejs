@@ -28,6 +28,7 @@
 
     <script src="/socket.io/socket.io.js"></script>
     <script>
+        const ruolo_testo = document.getElementById('ruolo')
         const stanza = '<%= stanza %>'
         const socket = io()
         socket.emit('entra', stanza)
@@ -36,7 +37,16 @@
             
         })
         socket.on('ruolo', ruolo=>{
-            document.getElementById('ruolo').innerHTML = ruolo
+            ruolo_testo.innerHTML = ruolo
+            if(ruolo == 'assassino'){
+                ruolo_testo.style.color = 'red'
+            }else if(ruolo == 'puttana'){
+                ruolo_testo.style.color = 'rebeccapurple'
+            }else if(ruolo == 'sbirro'){
+                ruolo_testo.style.color = 'blue'
+            }else{
+                ruolo_testo.style.color = 'white' 
+            }
         })
         function dis(){
             socket.emit('dist', stanza)
