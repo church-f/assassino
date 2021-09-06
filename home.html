@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ASSASSINO</title>
+    <link rel="stylesheet" href="style_home.css">
+</head>
+<body>
+    <div class="tutto">
+        
+        <div class="titolo">
+            <h1 id="titolo">ASSASSINO</h1>
+        </div>
+        
+        <div class="vari_input" > 
+            
+            <form class="entra" action="/user"  method="POST">
+                <input type="text" class="input" id="entra_in" name="entra" placeholder="Metti il nome della stanza" required autocomplete="off">
+                <button id="entra_btn" class="btn">entra</button>
+            </form>
+            
+            <form class="crea"  action="/admin" method="POST">
+                <input type="text" class="input" id="crea_in" name="crea" placeholder="Metti il nome della stanza" required autocomplete="off">
+                <button id="crea_btn" class="btn">crea</button>
+            </form>
+        
+        </div>
+    </div>
+
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="script_home.js"></script>
+</body>
+</html>

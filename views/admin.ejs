@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ASSASSINO | <%= stanza %></title>
+    <link rel="stylesheet" href="/style_admin.css">
+</head>
+<body>
+    <div class="tutto">
+        <div class="titolo">
+            <h1 id="titolo">STANZA: <%= stanza %></h1>
+        </div>
+        <div class="descrizione">
+            <p id="descrizione">
+                Clicca sul bottone per assegnare i ruoli a tutti i giocatori compreso te
+            </p>
+        </div>
+        <div class="centro">
+            <h1 id="ruolo"></h1>
+
+            <button id="btn" onclick="dis()">distrubuisci</button>
+        </div>
+
+    </div>
+    
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const stanza = '<%= stanza %>'
+        const socket = io()
+        socket.emit('entra', stanza)
+        socket.on('conn', msg=>{
+            console.log(msg)
+            
+        })
+        socket.on('ruolo', ruolo=>{
+            document.getElementById('ruolo').innerHTML = ruolo
+        })
+        function dis(){
+            socket.emit('dist', stanza)
+        }
+        
+    </script>
+</body>
+</html>

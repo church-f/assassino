@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/style_admin.css">
+    <title>ASSASSINO | <%= stanza %></title>
+</head>
+<body>
+    <div class="tutto">
+        <div class="titolo">
+            <h1 id="titolo">STANZA: <%= stanza %></h1>
+        </div>
+        <div class="descrizione">
+            <p id="descrizione">
+               Aspetta che il creatore della stanza dia i ruoli
+            </p>
+        </div>
+        <div class="centro">
+            <h1 id="ruolo"></h1>
+        </div>
+
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io()
+        socket.emit('entra', '<%= stanza %>')
+        socket.on('conn', msg=>{
+            console.log(msg)
+        })
+        socket.on('ruolo', ruolo=>{
+            document.getElementById('ruolo').innerHTML = ruolo
+        })
+        
+    </script>
+</body>
+</html>
