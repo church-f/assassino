@@ -111,6 +111,10 @@ app.get('/dio', (req, res)=>{
     res.send(stanze)
 })
 
+app.get('/regole', (req, res)=>{
+    res.sendFile(__dirname+'/regole.html')
+})
+
 
   
 
