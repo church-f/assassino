@@ -11,7 +11,7 @@ server.listen(PORT)
 
 //socket
 var stanze = []
-var admin = []
+var admin = {}
 io.on('connection', socket=>{
     
     //aggiungi persona nella stanza
@@ -55,13 +55,16 @@ io.on('connection', socket=>{
     //distruggi stanza se l'admin esce
     socket.on('disconnect', ()=>{
         
-        for(x = 0; x<admin.length; x++){
+        for(x in admin){
             var nome = admin[x]
-            console.log(nome)
-            if(nome.Name == socket.id){
-                break
+            if( nome== socket.id){
+                const index = stanze.indexOf(x);
+                if (index > -1) {
+                stanze.splice(index, 1);
+                }
             }
         }
+        
     })
 })
 
@@ -103,6 +106,9 @@ app.post('/user', (req, res)=>{
     
     res.redirect('/')
     
+})
+app.get('/dio', (req, res)=>{
+    res.send(stanze)
 })
 
 
