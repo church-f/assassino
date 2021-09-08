@@ -19,10 +19,11 @@
         </div>
         <div class="centro">
             <h1 id="ruolo"></h1>
+            <button onclick="nascondi()" id="btn_nascondi" class="btn">nascondi il tuo ruolo</button>
         </div>
 
     </div>
-
+    <!--ma diocan non hai nulla da fare eh-->
     <script src="/socket.io/socket.io.js"></script>
     <script>
         const ruolo_testo = document.getElementById('ruolo')
@@ -37,12 +38,30 @@
                 ruolo_testo.style.color = 'red'
             }else if(ruolo == 'puttana'){
                 ruolo_testo.style.color = 'rebeccapurple'
+                ruolo_testo.addEventListener('click', ()=>{
+                    ruolo_testo.innerHTML = 'la leti'
+                })
             }else if(ruolo == 'sbirro'){
                 ruolo_testo.style.color = 'blue'
             }else{
                 ruolo_testo.style.color = 'white' 
             }
         })
+        //nascondi il ruolo
+        var temp
+        const btn = document.getElementById('btn_nascondi')
+        function nascondi(){
+            var ruolo_attuale = ruolo_testo.innerHTML
+            if(ruolo_attuale != ''){
+                temp = ruolo_attuale
+                console.log(temp)
+                ruolo_testo.innerHTML = ''
+                btn.innerHTML = 'mostra il ruolo'
+            }else{
+                ruolo_testo.innerHTML = temp
+                btn.innerHTML = 'nascondi il ruolo'
+            }
+        }
         
     </script>
 </body>

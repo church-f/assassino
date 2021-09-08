@@ -18,9 +18,18 @@
             </p>
         </div>
         <div class="centro">
+            
+                
             <h1 id="ruolo"></h1>
-
-            <button id="btn" onclick="dis()">distrubuisci</button>
+            
+            
+            <div class="checkbox">
+                <input type="checkbox" id="complice">
+                <p>Aggiungi il complice</p>
+            </div>
+            
+            <button class="btn" onclick="dis()">distrubuisci</button>
+            <button onclick="nascondi()" id="btn_nascondi" class="btn">nascondi il tuo ruolo</button>
         </div>
 
     </div>
@@ -31,26 +40,50 @@
         const ruolo_testo = document.getElementById('ruolo')
         const stanza = '<%= stanza %>'
         const socket = io()
-        socket.emit('entra', stanza)
+        socket.emit('crea', stanza)
         socket.on('conn', msg=>{
             console.log(msg)
             
         })
+        //colora la scritta del ruolo
         socket.on('ruolo', ruolo=>{
             ruolo_testo.innerHTML = ruolo
             if(ruolo == 'assassino'){
                 ruolo_testo.style.color = 'red'
             }else if(ruolo == 'puttana'){
                 ruolo_testo.style.color = 'rebeccapurple'
+                ruolo_testo.addEventListener('click', ()=>{
+                    ruolo_testo.innerHTML = 'la leti'
+                })
+            //enacoid, vecio mio, cazzo cerchi?
             }else if(ruolo == 'sbirro'){
                 ruolo_testo.style.color = 'blue'
+            }else if(ruolo == 'complice'){
+                ruolo_testo.style.color = '#fcba03'
             }else{
                 ruolo_testo.style.color = 'white' 
             }
         })
         function dis(){
-            socket.emit('dist', stanza)
+            var complice = document.getElementById('complice').checked
+            
+            socket.emit('dist', {"stanza":stanza,"complice": complice})
+            
         }
+        //nascondi il ruolo
+        var nascosto = false
+        const btn = document.getElementById('btn_nascondi')
+        const ruolo = document.getElementById('ruolo')
+        function nascondi(){
+            if(nascosto){
+                ruolo.classList.remove('active')
+                nascosto = false
+            }else{
+                ruolo.classList.add('active')
+                nascosto = true
+            }
+        }
+        
         
     </script>
 </body>

@@ -17,8 +17,8 @@ body{
 }
 
 
-#btn{
-    
+.btn{
+    margin-bottom: 20px;
     border-radius: 5px;
     font-family: 'Rubik', sans-serif;
     height: 40px;
@@ -53,3 +53,22 @@ h1, p{
 .descrizione{
     width: 100%;
 }
+
+.checkbox{
+    display: flex;
+    margin-left: 5px;
+}
+
+#complice{
+    margin-right: 2px;
+}
+
+#ruolo{
+    transition-duration: 0.5s;
+}
+
+#ruolo.active{
+    opacity: 0;
+    transition-duration: 0.5s;
+}
+

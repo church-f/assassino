@@ -10,19 +10,33 @@ const PORT = process.env.PORT || 3000
 server.listen(PORT)
 
 //socket
-var stanze = {}
+var stanze = []
+var admin = []
 io.on('connection', socket=>{
     
+    //aggiungi persona nella stanza
     socket.on('entra', stanza=>{
-        
         socket.join(stanza)
     })
-    socket.on('dist', stanza=>{
+    socket.on('crea', stanza=>{
+        socket.join(stanza)
+        admin[stanza] = socket.id
+        
+        
+    })
+    //distrubuisci ruoli
+    socket.on('dist', ({stanza, complice})=>{
         var ruoli = ['sbirro', 'puttana', 'assassino']
+        var sottrazione = 3
+        if(complice == true){
+            ruoli.push('complice')
+            sottrazione++
+        }
         var aa = socket.adapter.rooms.get(stanza)
+        
         const clients = aa ? aa.size : 0;
         if(clients > 3){
-            var rim = clients-3
+            var rim = clients-sottrazione
             for(var i=0; i<rim; i++){
                 
                 ruoli.push('cittadino')
@@ -37,6 +51,17 @@ io.on('connection', socket=>{
         }
         
         
+    })
+    //distruggi stanza se l'admin esce
+    socket.on('disconnect', ()=>{
+        
+        for(x = 0; x<admin.length; x++){
+            var nome = admin[x]
+            console.log(nome)
+            if(nome.Name == socket.id){
+                break
+            }
+        }
     })
 })
 
@@ -58,11 +83,11 @@ app.get('/:room/admin', (req, res)=>{
     
 })
 app.post('/admin', (req, res)=>{
-    if(stanze[req.body.crea] != null){
+    if(stanze.includes(req.body.crea) != false){
         res.redirect('/')
     }
     
-    stanze[req.body.crea] = {user:{}}
+    stanze.push(req.body.crea)
     res.redirect(req.body.crea+'/admin')
 })
 
@@ -72,11 +97,12 @@ app.get('/:room/user', (req, res)=>{
     
 })
 app.post('/user', (req, res)=>{
-    if(stanze[req.body.entra] != null){
+    if(stanze.includes(req.body.entra) != false){
         res.redirect(req.body.entra+'/user')
     }
     
     res.redirect('/')
+    
 })
 
 
