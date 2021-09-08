@@ -62,3 +62,10 @@ body{
 .titolo{
     text-align: center;
 }
+
+#insta{
+    position: absolute;
+    bottom: 0;
+    font-family: 'Rubik', sans-serif; 
+    color: #fff;
+}
