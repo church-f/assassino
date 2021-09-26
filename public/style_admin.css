@@ -67,8 +67,4 @@ h1, p{
     transition-duration: 0.5s;
 }
 
-#ruolo.active{
-    opacity: 0;
-    transition-duration: 0.5s;
-}
 

@@ -33,15 +33,25 @@
             console.log(msg)
         })
         socket.on('ruolo', ruolo=>{
-            ruolo_testo.innerHTML = ruolo
+            var index = 0
+            var ao = setInterval(()=>{
+                ruolo_testo.innerHTML = ruolo.slice(0, index)
+                index++
+
+                if(index > ruolo.length ){
+                    clearInterval(ao)
+                }
+
+            }, 100)
             if(ruolo == 'assassino'){
+                
                 ruolo_testo.style.color = 'red'
             }else if(ruolo == 'puttana'){
+                
                 ruolo_testo.style.color = 'rebeccapurple'
-                ruolo_testo.addEventListener('click', ()=>{
-                    ruolo_testo.innerHTML = 'la leti'
-                })
+                
             }else if(ruolo == 'sbirro'){
+                
                 ruolo_testo.style.color = 'blue'
             }else{
                 ruolo_testo.style.color = 'white' 
@@ -54,7 +64,6 @@
             var ruolo_attuale = ruolo_testo.innerHTML
             if(ruolo_attuale != ''){
                 temp = ruolo_attuale
-                console.log(temp)
                 ruolo_testo.innerHTML = ''
                 btn.innerHTML = 'mostra il ruolo'
             }else{

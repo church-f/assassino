@@ -32,6 +32,8 @@
             <button onclick="nascondi()" id="btn_nascondi" class="btn">nascondi il tuo ruolo</button>
         </div>
 
+        
+
     </div>
     
 
@@ -47,14 +49,26 @@
         })
         //colora la scritta del ruolo
         socket.on('ruolo', ruolo=>{
-            ruolo_testo.innerHTML = ruolo
+            var index = 0
+            var ao = setInterval(()=>{
+                ruolo_testo.innerHTML = ruolo.slice(0, index)
+                index++
+
+                if(index > ruolo.length ){
+                    clearInterval(ao)
+                }
+
+            }, 100)
             if(ruolo == 'assassino'){
+                
                 ruolo_testo.style.color = 'red'
             }else if(ruolo == 'puttana'){
+                
                 ruolo_testo.style.color = 'rebeccapurple'
                 
             //enacoid, vecio mio, cazzo cerchi?
             }else if(ruolo == 'sbirro'){
+                
                 ruolo_testo.style.color = 'blue'
             }else if(ruolo == 'complice'){
                 ruolo_testo.style.color = '#fcba03'
@@ -62,13 +76,8 @@
                 ruolo_testo.style.color = 'white' 
             }
 
-            ruolo_testo.addEventListener('click', ()=>{
-                    if(ruolo_testo.innerHTML == 'puttana'){
-                        ruolo_testo.innerHTML = 'la leti'
-                    }
-                    
-                })
         })
+        
         function dis(){
             var complice = document.getElementById('complice').checked
             
@@ -76,18 +85,22 @@
             
         }
         //nascondi il ruolo
-        var nascosto = false
+        var temp
         const btn = document.getElementById('btn_nascondi')
-        const ruolo = document.getElementById('ruolo')
         function nascondi(){
-            if(nascosto){
-                ruolo.classList.remove('active')
-                nascosto = false
+            var ruolo_attuale = ruolo_testo.innerHTML
+            if(ruolo_attuale != ''){
+                temp = ruolo_attuale
+                ruolo_testo.innerHTML = ''
+                btn.innerHTML = 'mostra il ruolo'
             }else{
-                ruolo.classList.add('active')
-                nascosto = true
+                ruolo_testo.innerHTML = temp
+                btn.innerHTML = 'nascondi il ruolo'
             }
         }
+
+        
+
         
         
     </script>
