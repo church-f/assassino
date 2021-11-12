@@ -68,7 +68,6 @@ io.on('connection', socket=>{
     })
 })
 
-
 //express
 app.set('view engine', 'ejs')
 
@@ -103,8 +102,8 @@ app.post('/user', (req, res)=>{
     if(stanze.includes(req.body.entra) != false){
         res.redirect(req.body.entra+'/user')
     }
-    
-    res.redirect('/')
+
+    res.render('home', {errore: "ciao"})
     
 })
 app.get('/dio', (req, res)=>{

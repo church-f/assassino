@@ -65,6 +65,11 @@ h1, p{
 
 #ruolo{
     transition-duration: 0.5s;
+    
 }
 
+.nascosto{
+    transition-duration: 0.5s;
+    opacity: 0;
+}
 

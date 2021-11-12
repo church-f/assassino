@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8298979063226603"
+     crossorigin="anonymous"></script>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -85,19 +87,21 @@
             
         }
         //nascondi il ruolo
+        var nascosto = false
         var temp
         const btn = document.getElementById('btn_nascondi')
         function nascondi(){
-            var ruolo_attuale = ruolo_testo.innerHTML
-            if(ruolo_attuale != ''){
-                temp = ruolo_attuale
-                ruolo_testo.innerHTML = ''
-                btn.innerHTML = 'mostra il ruolo'
-            }else{
-                ruolo_testo.innerHTML = temp
+            if(nascosto){
+                ruolo_testo.classList.remove('nascosto')
+                nascosto = false
                 btn.innerHTML = 'nascondi il ruolo'
+            }else{
+                ruolo_testo.classList.add('nascosto')
+                nascosto = true
+                btn.innerHTML = 'mostra il ruolo'
             }
         }
+        
 
         
 
