@@ -69,3 +69,11 @@ body{
     font-family: 'Rubik', sans-serif; 
     color: #fff;
 }
+
+
+@media only screen and(min-width:800px) and (max-width:300px){
+    .tutto{
+        width: 100%;
+        height: 100%;
+    }
+}
