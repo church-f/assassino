@@ -71,3 +71,7 @@ body{
 }
 
 
+#ad{
+    position: absolute;
+    bottom: 0;
+}

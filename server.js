@@ -103,7 +103,7 @@ app.post('/user', (req, res)=>{
         res.redirect(req.body.entra+'/user')
     }
 
-    res.render('home', {errore: "ciao"})
+    
     
 })
 app.get('/dio', (req, res)=>{

@@ -73,3 +73,7 @@ h1, p{
     opacity: 0;
 }
 
+#ad{
+    position: absolute;
+    bottom: 0;
+}
