@@ -12,8 +12,7 @@ html{
 body{
     text-align: center;
     height: 100%;
-    
-    background-color: rgb(51, 51, 51);
+    background: linear-gradient(0deg, #292664 0%, #43C6AC 100%);
 }
 
 
