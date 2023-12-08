@@ -2,17 +2,6 @@ const socket = io()
 
 
 
-const btn_entra = document.getElementById('entra_btn')
-btn_entra.addEventListener('click', ()=>{
-    entra()
-})
-
-const btn_crea = document.getElementById('crea_btn')
-btn_crea.addEventListener('click', ()=>{
-    crea()
-})
-
-
 const titolo = document.getElementById('titolo')
 const lista = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "A", "B", "C", "D", "E", "F"]
 
@@ -24,3 +13,16 @@ titolo.addEventListener('click', ()=>{
     }
     titolo.style.color = colore
 })
+
+var popup = document.querySelector('.popupContainer')
+
+function apriPopup(){
+    popup.classList.add('active')
+    popup.classList.remove('inactive')
+}
+
+function chiudiPopup(){
+    console.log('dioca')
+    popup.classList.remove('active')
+    popup.classList.add('inactive')
+}

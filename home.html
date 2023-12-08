@@ -9,7 +9,7 @@
     
 </head>
 <body>
-    <div class="tutto">
+    
         
         <div class="titolo">
             <h1 id="titolo">ASSASSINO</h1>
@@ -18,31 +18,33 @@
         
         <div class="vari_input" > 
 
-            <div class="ao">
-                <h2>entra in una stazna</h2>
+            <h2>Entra in una stanza</h2>
             <form class="entra" action="/user"  method="POST">
-                <div class="bg"></div>
                 <input type="text" class="input" id="entra_in" name="entra" placeholder="Metti il nome della stanza" required autocomplete="off">
-                <button id="entra_btn" class="btn">entra</button>
+                <button id="entra_btn" class="btn">Inizia a giocare!</button>
             </form>
-            </div>
+            <p onclick="apriPopup()">O crea una stanza</p>
+        </div>
             
+        
+        <div class="popupContainer inactive">
             
-            <div class="ao">
-                <h2>crea una stazna</h2>
+            <h2>Crea una stanza</h2>
             <form class="crea"  action="/admin" method="POST">
-                <div class="bg"></div>
                 <input type="text" class="input" id="crea_in" name="crea" placeholder="Metti il nome della stanza" required autocomplete="off">
                 <button id="crea_btn" class="btn">crea</button>
             </form>
-            </div>
+            <p onclick="chiudiPopup()">Annulla</p>
             
-            
-        
         </div>
-        
 
-    </div>
+        <div class="mano">
+            <img src="img/mano.svg" class="manoColtello">
+            <img src="img/gocce.png" class="gocce">
+            <img src="img/gocce.png" class="gocce2">
+
+        </div>
+   
 
     <script src="/socket.io/socket.io.js"></script>
     <script src="script_home.js"></script>

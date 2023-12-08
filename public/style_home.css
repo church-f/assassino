@@ -1,84 +1,137 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap');
 *{
     margin: 0;
     padding: 0;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     color: #fff;
 }
 
 html{
-    height: 100%;
+    height: 100vh;
+    overflow: hidden;
 }
 body{
-    height: 100%;
+    height: 100vh;
     display: flex;
     justify-content: center;
-    background: linear-gradient(0deg, #292664 0%, #43C6AC 100%);
-}
-.tutto{
-    display: flex;
-    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    background: linear-gradient(180deg, #C1121F 0%, #750000 100%);
 }
 
 .btn, .input{
     border-radius: 5px;
-    
     height: 40px;
     border: 0;
 }
 
 .btn{
-    width: 20%;
     color: #000;
-    
-}
-.input{
-    width: 80%;
-    margin-right: 5px;
-    
+    width: 100%;
+    font-weight: 600;
+    font-size: 20px;
 }
 
+.vari_input, .popupContainer{
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+}
 
-
-.bg{
-    z-index: -100;
+.popupContainer.active{
     position: absolute;
-    
-    
-    width: 80%;
-    height: 100%;
-    background: linear-gradient(90deg, #292664 0%, #43C6AC 100%);
-    padding: 3px 0;
-    transform: translate(-3px, -3px);
-    border-radius: 5px;
+    z-index: 100;
+    background-color: #f4d58d;
+    border-radius: 10px;
+    width: 80vw;
+    padding: 20px;
+    transform: translateX(0);
+    transition: ease-in 0.5s;
 }
-.vari_input{
-    width: 90%;
+
+.popupContainer.inactive{
     position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
+    transform: translateX(-300%);
+    opacity: 0;
+    transition: ease-in 0.5s;
+}
+
+
+.popupContainer h2{
+    color: #001427;
+}
+
+.vari_input p, .popupContainer p{
+    text-align: center;
+    text-decoration: underline;
+    color: #001427;
 }
 .entra, .crea{
-    margin: 10px 0 10px 0;
+    margin: 30px 0;
     display: flex;
-    position: relative; 
+    flex-direction: column;
+    gap: 10px;
 }
 
 #titolo{
     margin-top: 20px; 
 }
 
-
 .titolo{
     text-align: center;
+    position: absolute;
+    top: 20px;
 }
 
 h2{
     font-weight: 100;
 }
 
-.ao{
-    margin: 30px 0;
-    
+.mano{
+    position: relative;
+    height: 100vh;
+    width: 0;
+    /* top: 20%; */
+    right: -18%;
+}
+
+.manoColtello{
+    position: absolute;
+    height: 50vh;
+    right: -20px;
+    top: 20%;
+    z-index: 5;
+    animation: mano ease-in-out 5s infinite;
+}
+
+.gocce{
+    position: absolute;
+    right: 5px;
+    animation: gocce ease-out 2s infinite;
+}
+.gocce2{
+    position: absolute;
+    right: 2px;
+    animation: gocce ease-out 3s infinite;
+}
+
+@keyframes mano {
+    0%{
+        rotate: 0deg;
+    }
+    50%{
+        rotate: 5deg;
+    }
+    100%{
+        rotate: 0deg;
+    }
+}
+
+@keyframes gocce {
+    from{
+        top: 67%;
+    }
+    to{
+        top: 110%;
+    }
 }

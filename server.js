@@ -6,6 +6,15 @@ const app = express()
 const server = http.createServer(app)
 const io = socketio(server)
 const PORT = process.env.PORT || 3000
+const fs = require("fs");
+var data = {}
+fs.readFile("./public/data.json", "utf8", (error, dataa) => {
+  if (error) {
+    console.log(error);
+    return;
+  }
+  data = JSON.parse(dataa);
+});
 
 server.listen(PORT)
 
@@ -45,7 +54,15 @@ io.on('connection', socket=>{
         ruoli.sort(function(a, b){return 0.5 - Math.random()})
         var t = 0
         for(var a of aa){
-            io.to(a).emit('ruolo', ruoli[t])
+            console.log(ruoli.length)
+            console.log(data[ruoli[t]])
+            io.to(a).emit('ruolo', 
+                data[ruoli[t]].ruolo, 
+                data[ruoli[t]].compito,
+                data[ruoli[t]].faccia,
+                data[ruoli[t]].coloreBg,
+
+            )
             t++
             
         }
@@ -76,6 +93,7 @@ app.use(express.static(path.join(__dirname, "public")))
 
 app.use(express.urlencoded());
 
+
 app.get('/', (req, res)=>{
     res.sendFile(__dirname+'/home.html')
 })
@@ -102,9 +120,6 @@ app.post('/user', (req, res)=>{
     if(stanze.includes(req.body.entra) != false){
         res.redirect(req.body.entra+'/user')
     }
-
-    
-    
 })
 app.get('/dio', (req, res)=>{
     res.send(stanze)

@@ -1,0 +1,26 @@
+{
+    "assassino":{
+        "ruolo": "Assassino",
+        "compito": "Uccidi gli altri giocatori",
+        "faccia": "assassino.png",
+        "coloreBg": "#B02222"
+    },
+    "sbirro":{
+        "ruolo": "Sbirro",
+        "compito": "Arresta l'assino",
+        "faccia": "sbirro.png",
+        "coloreBg": "#228EB0"
+    },
+    "puttana":{
+        "ruolo": "Puttana",
+        "compito": "Rianima i morti",
+        "faccia": "puttana.png",
+        "coloreBg": "#4F22B0"
+    },
+    "cittadino":{
+        "ruolo": "Cittadino",
+        "compito": "Soppravivi",
+        "faccia": "cittadino.png",
+        "coloreBg": "#669bbc"
+    }
+}

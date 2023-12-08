@@ -20,16 +20,36 @@
         <div class="centro">
             
                 
-            <h1 id="ruolo"></h1>
-            
-            
-            <div class="checkbox">
-                <input type="checkbox" id="complice">
-                <p>Aggiungi il complice</p>
+            <div class="containerCard">
+                <div class="bordo"></div>
+                <div class="card">
+                    <div class="sopra">
+                        <div class="tendina"></div>
+                        <div class="personaggio">
+                            <img src="../img/assassino.png" class="faccia">
+                            <img src="../img/facciaNormale.png" class="faccia normale">
+                            <img src="../img/busto.png" class="busto">
+                        </div>
+                    </div>
+                    
+                    <div class="sotto">
+                        <h1 class="ruolo">Assassino</h1>
+                        <p class="compito">Uccidi gli altri giocatori</p>
+                    </div>
+                </div>
+                <div class="bordo"></div>
             </div>
             
-            <button class="btn" onclick="dis()">distrubuisci</button>
-            <button onclick="nascondi()" id="btn_nascondi" class="btn">nascondi il tuo ruolo</button>
+            
+            <!-- <div class="checkbox">
+                <input type="checkbox" id="complice">
+                <p>Aggiungi il complice</p>
+            </div> -->
+            <div class="bottoni">
+
+                <button class="btn" onclick="dis()">Distrubuisci</button>
+                <button onclick="nascondi()" id="btn_nascondi" class="btn">Nascondi il ruolo</button>
+            </div>
         </div>
 
         
@@ -39,7 +59,12 @@
 
     <script src="/socket.io/socket.io.js"></script>
     <script>
-        const ruolo_testo = document.getElementById('ruolo')
+        const ruolo_testo = document.querySelector('.ruolo')
+        const compito = document.querySelector('.compito')
+        const sopra = document.querySelector('.sopra')
+        var backupRuolo = ''
+        var backupCompito = ''
+        const faccia = document.querySelector('.faccia')
         const stanza = '<%= stanza %>'
         const socket = io()
         socket.emit('crea', stanza)
@@ -48,7 +73,7 @@
             
         })
         //colora la scritta del ruolo
-        socket.on('ruolo', ruolo=>{
+        socket.on('ruolo', (ruolo, compitoo, facciaa, colore)=>{
             var index = 0
             var ao = setInterval(()=>{
                 ruolo_testo.innerHTML = ruolo.slice(0, index)
@@ -59,27 +84,18 @@
                 }
 
             }, 100)
-            if(ruolo == 'assassino'){
-                
-                ruolo_testo.style.color = 'red'
-            }else if(ruolo == 'puttana'){
-                
-                ruolo_testo.style.color = 'rebeccapurple'
-                
-            //enacoid, vecio mio, cazzo cerchi?
-            }else if(ruolo == 'sbirro'){
-                
-                ruolo_testo.style.color = 'blue'
-            }else if(ruolo == 'complice'){
-                ruolo_testo.style.color = '#fcba03'
-            }else{
-                ruolo_testo.style.color = 'white' 
-            }
+            
+            backupRuolo = ruolo
+            backupCompito = compitoo
+            sopra.style.background = colore
+            compito.innerHTML = compitoo
+            faccia.src = `../img/${facciaa}`
 
         })
         
         function dis(){
-            var complice = document.getElementById('complice').checked
+            // var complice = document.getElementById('complice').checked
+            var complice = false
             
             socket.emit('dist', {"stanza":stanza,"complice": complice})
             
@@ -88,15 +104,25 @@
         var nascosto = false
         var temp
         const btn = document.getElementById('btn_nascondi')
+        const facciaNormale = document.querySelector('.normale')
+        const tendina = document.querySelector('.tendina')
         function nascondi(){
             if(nascosto){
-                ruolo_testo.classList.remove('nascosto')
+                compito.innerHTML = backupCompito
+                ruolo_testo.innerHTML = backupRuolo
+                facciaNormale.classList.remove('nascosto')
+                faccia.classList.remove('nascosto')
+                tendina.classList.remove('nascosto')
                 nascosto = false
-                btn.innerHTML = 'nascondi il ruolo'
+                btn.innerHTML = 'Nascondi il ruolo'
             }else{
-                ruolo_testo.classList.add('nascosto')
+                faccia.classList.add('nascosto')
+                facciaNormale.classList.add('nascosto')
+                tendina.classList.add('nascosto')
+                compito.innerHTML = 'Compito nascosto'
+                ruolo_testo.innerHTML = 'Ruolo nascosto'
                 nascosto = true
-                btn.innerHTML = 'mostra il ruolo'
+                btn.innerHTML = 'Mostra il ruolo'
             }
         }
         
