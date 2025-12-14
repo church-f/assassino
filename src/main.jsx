@@ -10,6 +10,7 @@ import LandingPage from "./pages/LandingPage/LandingPage.jsx";
 import Home from "./pages/Home/Home.jsx";
 import Login from "./pages/Login/Login.jsx";
 import Regole from "./pages/Regole/Regole.jsx";
+import PrivacyPolicy from "./pages/PrivacyPolicy/PrivacyPolicy.jsx";
 
 const Main = () => {
   useEffect(() => {
@@ -40,6 +41,7 @@ const Main = () => {
             <Route path="/home" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/regole" element={<Regole />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="*" element={<LandingPage />} />
           </Routes>
         </Router>
