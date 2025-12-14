@@ -18,8 +18,14 @@ const Main = () => {
   const theme = createTheme({
     palette: {
       primary: {
-        main: '#1B4965'
+        main: '#003049'
       },
+      secondary: {
+        main: '#FDF0D5'
+      },
+      red: {
+        main: '#C1121F'
+      }
     },
   });
 
