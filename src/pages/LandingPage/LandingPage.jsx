@@ -9,16 +9,16 @@ import {
   useTheme,
 } from "@mui/material";
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import OndemandVideoRoundedIcon from "@mui/icons-material/OndemandVideoRounded";
-import ShieldRoundedIcon from "@mui/icons-material/ShieldRounded";
 import GroupsRoundedIcon from "@mui/icons-material/GroupsRounded";
 import BoltRoundedIcon from "@mui/icons-material/BoltRounded";
 import StarRoundedIcon from "@mui/icons-material/StarRounded";
 import "./Landingpage.css";
+import { useNavigate } from "react-router-dom";
 
-export default function AssassinoOnlinePage() {
+export default function LandingPage() {
   const theme = useTheme();
   const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
+  const navigate = useNavigate();
 
   return (
     <Box
@@ -216,7 +216,7 @@ export default function AssassinoOnlinePage() {
                 fullWidth
                 variant="contained"
                 disableElevation
-                onClick={() => {}}
+                onClick={() => {navigate('/gioca')}}
                 sx={{
                   height: 56,
                   maxWidth: 270,
@@ -297,7 +297,7 @@ export default function AssassinoOnlinePage() {
           <Button
             fullWidth
             variant="outlined"
-            onClick={() => {}}
+            onClick={() => {navigate('/regole')}}
             sx={{
               mt: 1.6,
               height: 48,

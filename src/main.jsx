@@ -9,6 +9,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import LandingPage from "./pages/LandingPage/LandingPage.jsx";
 import Home from "./pages/Home/Home.jsx";
 import Login from "./pages/Login/Login.jsx";
+import Regole from "./pages/Regole/Regole.jsx";
 
 const Main = () => {
   useEffect(() => {
@@ -38,6 +39,7 @@ const Main = () => {
             <Route path="/" element={<LandingPage />} />
             <Route path="/home" element={<Home />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/regole" element={<Regole />} />
             <Route path="*" element={<LandingPage />} />
           </Routes>
         </Router>
