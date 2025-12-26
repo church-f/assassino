@@ -1,6 +1,7 @@
 const API = import.meta.env.VITE_API_URL;
+import { showToast } from "./components/Toast";
 
-export async function apiFetch(path, { method="GET", body, headers } = {}) {
+export async function apiFetch(path, { method="GET", body, headers } = {}, cb, cbErr) {
   const res = await fetch(`${API}${path}`, {
     method,
     credentials: "include",
@@ -11,7 +12,11 @@ export async function apiFetch(path, { method="GET", body, headers } = {}) {
   if (!res.ok) {
     const err = new Error(data?.error || `HTTP ${res.status}`);
     err.status = res.status;
+    if(cbErr) cbErr(err, res);
+    // showToast({ open: true, message: err.message, severity: 'error' });
     throw err;
+  }else{
+    if(cb) cb(data, res);
   }
   return data;
 }

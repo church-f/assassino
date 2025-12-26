@@ -12,6 +12,8 @@ import Login from "./pages/Login/Login.jsx";
 import Regole from "./pages/Regole/Regole.jsx";
 import PrivacyPolicy from "./pages/PrivacyPolicy/PrivacyPolicy.jsx";
 import ContactPage from "./pages/Contattaci/Contattaci.jsx";
+import Stanza from "./pages/Stanza/Stanza.jsx";
+import Invito from "./pages/Stanza/Invito.jsx";
 
 const Main = () => {
   useEffect(() => {
@@ -44,6 +46,8 @@ const Main = () => {
             <Route path="/regole" element={<Regole />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/contattaci" element={<ContactPage />} />
+            <Route path="/stanza/:roomCode" element={<Stanza />} />
+            <Route path="/invito/:roomCode" element={<Invito />} />
             <Route path="*" element={<LandingPage />} />
           </Routes>
         </Router>

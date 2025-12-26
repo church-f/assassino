@@ -216,7 +216,7 @@ export default function LandingPage() {
                 fullWidth
                 variant="contained"
                 disableElevation
-                onClick={() => {navigate('/gioca')}}
+                onClick={() => {navigate('/home')}}
                 sx={{
                   height: 56,
                   maxWidth: 270,
