@@ -1,6 +1,6 @@
 import { signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { auth } from "./firebase";
-import { apiFetch } from "./Api";
+import { apiFetch } from "./api";
 
 export async function loginAndCreateSession(email, password) {
   // 1) login Firebase

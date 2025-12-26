@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { apiFetch } from "../../Api";
+import { apiFetch } from "../../api";
 import { io } from "socket.io-client";
 import Gioco from "./Gioco.jsx";
 import Attesa from "./Attesa.jsx";

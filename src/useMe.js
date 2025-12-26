@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { apiFetch } from "./Api";
+import { apiFetch } from "./api";
 
 export function useMe() {
   const [state, setState] = useState({ loading: true, user: null });

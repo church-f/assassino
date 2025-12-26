@@ -1,5 +1,5 @@
 import { use } from "react";
-import { apiFetch } from "../../Api";
+import { apiFetch } from "../../api";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";

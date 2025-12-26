@@ -17,7 +17,7 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import KeyIcon from "@mui/icons-material/Key";
 import PaletteOutlinedIcon from "@mui/icons-material/PaletteOutlined";
 import QueryStatsOutlinedIcon from "@mui/icons-material/QueryStatsOutlined";
-import { apiFetch } from "../../Api";
+import { apiFetch } from "../../api";
 import { useNavigate } from "react-router-dom";
 
 export default function HomeLobbyPage() {

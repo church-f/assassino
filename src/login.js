@@ -1,6 +1,6 @@
 import { createUserWithEmailAndPassword, updateProfile, signOut } from "firebase/auth";
 import { auth } from "./firebase";
-import { apiFetch } from "./Api";
+import { apiFetch } from "./api";
 
 // registra + crea session cookie
 export async function signupAndCreateSession({ email, password, displayName }) {
