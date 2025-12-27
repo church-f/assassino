@@ -62,10 +62,10 @@ export default function HomeLobbyPage() {
                 {/* Header */}
                 <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
                     <Typography sx={{ fontWeight: 900, fontSize: 18, letterSpacing: -0.2 }}>
-                        ShadowHunter
+                        Assassino Online
                     </Typography>
                     <Box sx={{ flex: 1 }} />
-                    <IconButton
+                    {/* <IconButton
                         aria-label="Impostazioni"
                         sx={{
                             color: "primary.main",
@@ -76,7 +76,7 @@ export default function HomeLobbyPage() {
                         }}
                     >
                         <SettingsIcon />
-                    </IconButton>
+                    </IconButton> */}
                 </Box>
 
                 {/* Hero */}
