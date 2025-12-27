@@ -19,6 +19,7 @@ import PaletteOutlinedIcon from "@mui/icons-material/PaletteOutlined";
 import QueryStatsOutlinedIcon from "@mui/icons-material/QueryStatsOutlined";
 import { apiFetch } from "../../api";
 import { useNavigate } from "react-router-dom";
+import PositionedMenu from '../../components/Menu.jsx';
 
 export default function HomeLobbyPage() {
     const theme = useTheme();
@@ -65,6 +66,7 @@ export default function HomeLobbyPage() {
                         Assassino Online
                     </Typography>
                     <Box sx={{ flex: 1 }} />
+                    <PositionedMenu />
                     {/* <IconButton
                         aria-label="Impostazioni"
                         sx={{
