@@ -60,6 +60,7 @@ export default function PositionedMenu() {
                 // }}
             >
                 <MenuItem onClick={()=>{handleNavigate('/home')}}>Home</MenuItem>
+                <MenuItem onClick={()=>{handleNavigate('/registrati')}}>Registrati</MenuItem>
                 <MenuItem onClick={()=>{handleNavigate('/regole')}}>Regole</MenuItem>
                 {/* <MenuItem onClick={()=>{handleNavigate('/about-us')}}>Chi siamo</MenuItem> */}
                 <MenuItem onClick={()=>{handleNavigate('/contattaci')}}>Contattaci</MenuItem>

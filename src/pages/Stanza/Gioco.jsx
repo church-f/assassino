@@ -28,7 +28,7 @@ export default function Gioco(props) {
   const navigate = useNavigate();
   const [openEndGame, setOpenEndGame] = React.useState(false);
 
-  const [alignment, setAlignment] = React.useState("impostore");
+  const [alignment, setAlignment] = React.useState("assassino");
   const [openListPlayers, setOpenListPlayers] = React.useState(false);
 
   // ✅ UI ONLY: animazione quando cambia il ruolo
@@ -370,7 +370,7 @@ export default function Gioco(props) {
         >
           <DialogTitle sx={{ fontWeight: 950 }}>Termina partita</DialogTitle>
           <DialogContent dividers>
-            {/*
+            
             Chi ha vinto?
             <ToggleButtonGroup
               value={alignment}
@@ -378,17 +378,17 @@ export default function Gioco(props) {
               onChange={handleAlignment}
               aria-label="text alignment"
             >
-              <ToggleButton value="impostore" aria-label="Impostore">
-                Impostore
+              <ToggleButton value="assassino" aria-label="Assassino">
+                Assassino
               </ToggleButton>
               <ToggleButton value="cittadini" aria-label="Cittadini">
                 Cittadini
               </ToggleButton>
             </ToggleButtonGroup>
-            */}
-            <Typography sx={{ fontSize: 14, opacity: 0.85 }}>
+           
+            {/* <Typography sx={{ fontSize: 14, opacity: 0.85 }}>
               Terminare e iniziare una nuova partita?
-            </Typography>
+            </Typography> */}
           </DialogContent>
           <DialogActions>
             <Button

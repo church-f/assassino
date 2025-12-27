@@ -1,32 +1,72 @@
-import { createUserWithEmailAndPassword, updateProfile, signOut } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  updateProfile,
+  signOut,
+  signInWithPopup,
+  signInWithRedirect,
+  getRedirectResult,
+  GoogleAuthProvider
+} from "firebase/auth";
 import { auth } from "./firebase";
 import { apiFetch } from "./api";
 
-// registra + crea session cookie
-export async function signupAndCreateSession({ email, password, displayName }) {
-  // 1) crea utente su Firebase
-  const cred = await createUserWithEmailAndPassword(auth, email, password);
+/**
+ * Prende un Firebase user già autenticato (email/pass o Google),
+ * e crea la session cookie HttpOnly sul backend.
+ */
+async function createServerSessionFromUser(user) {
+  const idToken = await user.getIdToken();
 
-  // 2) opzionale: set displayName su Firebase
-  if (displayName) {
-    await updateProfile(cred.user, { displayName });
-  }
-
-  // 3) idToken
-  const idToken = await cred.user.getIdToken();
-
-  // 4) csrf
+  // CSRF cookie + token
   const { csrfToken } = await apiFetch("/auth/csrf");
 
-  // 5) crea session cookie server-side
+  // crea session cookie server-side
   await apiFetch("/auth/session", {
     method: "POST",
     body: { idToken },
     headers: { "x-csrf-token": csrfToken }
   });
 
-  // 6) opzionale: logout firebase client
+  // opzionale: logout dal client Firebase (cookie diventa source of truth)
   await signOut(auth);
 
   return true;
+}
+
+// Email/password: signup + session
+export async function signupAndCreateSession({ email, password, displayName }) {
+  const cred = await createUserWithEmailAndPassword(auth, email, password);
+
+  if (displayName) {
+    await updateProfile(cred.user, { displayName });
+  }
+
+  return createServerSessionFromUser(cred.user);
+}
+
+// Google: login/signup + session (Popup)
+export async function googleLoginAndCreateSession() {
+  const provider = new GoogleAuthProvider();
+  // opzionale: forzi la scelta account
+  provider.setCustomParameters({ prompt: "select_account" });
+
+  const cred = await signInWithPopup(auth, provider);
+  return createServerSessionFromUser(cred.user);
+}
+
+/**
+ * Variante Redirect (utile se popup bloccati / iOS Safari):
+ * 1) chiami googleLoginRedirect()
+ * 2) al reload pagina chiami handleGoogleRedirectResult()
+ */
+export async function googleLoginRedirect() {
+  const provider = new GoogleAuthProvider();
+  provider.setCustomParameters({ prompt: "select_account" });
+  await signInWithPopup(auth, provider);
+}
+
+export async function handleGoogleRedirectResult() {
+  const res = await getRedirectResult(auth);
+  if (!res?.user) return false; // niente redirect in corso
+  return createServerSessionFromUser(res.user);
 }

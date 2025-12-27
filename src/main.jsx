@@ -14,8 +14,16 @@ import PrivacyPolicy from "./pages/PrivacyPolicy/PrivacyPolicy.jsx";
 import ContactPage from "./pages/Contattaci/Contattaci.jsx";
 import Stanza from "./pages/Stanza/Stanza.jsx";
 import Invito from "./pages/Stanza/Invito.jsx";
+import RegisterPage from "./pages/Register/Register.jsx";
+import { useMe } from "./useMe.js";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import StatistichePage from "./pages/Statistiche/Statistiche.jsx";
+
+const queryClient = new QueryClient();
 
 const Main = () => {
+  let { data } = useMe();
+  console.log(data);
   useEffect(() => {
     initGA();
   }, []);
@@ -36,23 +44,29 @@ const Main = () => {
 
   return (
     <ThemeProvider theme={theme}>
-        <Router>
-          <PageTracker />
-          {/* <AutomaticAdsManager /> */}
-          <Routes>
-            <Route path="/" element={<LandingPage />} />
-            <Route path="/home" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/regole" element={<Regole />} />
-            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-            <Route path="/contattaci" element={<ContactPage />} />
-            <Route path="/stanza/:roomCode" element={<Stanza />} />
-            <Route path="/invito/:roomCode" element={<Invito />} />
-            <Route path="*" element={<LandingPage />} />
-          </Routes>
-        </Router>
+      <Router>
+        <PageTracker />
+        {/* <AutomaticAdsManager /> */}
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/regole" element={<Regole />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/statistiche" element={<StatistichePage />} />
+          <Route path="/registrati" element={<RegisterPage />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/contattaci" element={<ContactPage />} />
+          <Route path="/stanza/:roomCode" element={<Stanza />} />
+          <Route path="/invito/:roomCode" element={<Invito />} />
+          <Route path="*" element={<LandingPage />} />
+        </Routes>
+      </Router>
     </ThemeProvider>
   );
 };
 
-createRoot(document.getElementById("root")).render(<Main />);
+createRoot(document.getElementById("root")).render(
+  <QueryClientProvider client={queryClient}>
+    <Main />
+  </QueryClientProvider>
+);

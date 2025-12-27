@@ -20,12 +20,20 @@ import QueryStatsOutlinedIcon from "@mui/icons-material/QueryStatsOutlined";
 import { apiFetch } from "../../api";
 import { useNavigate } from "react-router-dom";
 import PositionedMenu from '../../components/Menu.jsx';
+import { useMe } from "../../useMe.js";
 
 export default function HomeLobbyPage() {
     const theme = useTheme();
     const [roomCode, setRoomCode] = useState("");
     const navigate = useNavigate();
     const [nickname, setNickname] = useState("");
+
+    const { data: user } = useMe();
+    React.useEffect(() => {
+        if (user && user.displayName) {
+            setNickname(user.displayName);
+        }
+    }, [user]);
 
     const styles = useMemo(() => {
         const fg = theme.palette.primary.main;
@@ -39,7 +47,7 @@ export default function HomeLobbyPage() {
     }, [theme]);
 
     const onCreateRoom = () => {
-        apiFetch("/rooms", { method: "POST", body: { playerName: nickname } }, (data, res) => {
+        apiFetch("/rooms", { method: "POST", body: { playerName: nickname, playerFirebaseUid: user?.uid } }, (data, res) => {
             localStorage.setItem("roomCode", data.roomCode);
             localStorage.setItem("playerId", data.playerId);
             localStorage.setItem("isAdmin", JSON.stringify(true));
@@ -47,7 +55,7 @@ export default function HomeLobbyPage() {
         });
     };
     const onJoinRoom = () => {
-        apiFetch(`/rooms/${roomCode}/join`, { method: 'POST', body: { playerName: nickname } }, (data, res) => {
+        apiFetch(`/rooms/${roomCode}/join`, { method: 'POST', body: { playerName: nickname, playerFirebaseUid: user?.uid } }, (data, res) => {
             localStorage.setItem("roomCode", roomCode);
             localStorage.setItem("playerId", data.playerId);
             localStorage.setItem("isAdmin", JSON.stringify(false));
@@ -55,7 +63,9 @@ export default function HomeLobbyPage() {
         })
     };
     const goLooks = () => { };
-    const goStats = () => { };
+    const goStats = () => {
+        navigate("/statistiche");
+     };
 
     return (
         <Box sx={{ minHeight: "100vh", bgcolor: "secondary.main", color: "primary.main" }}>
@@ -99,6 +109,7 @@ export default function HomeLobbyPage() {
                 </Box>
                 <TextField
                     value={nickname}
+                    label="Nickname"
                     onChange={(e) => setNickname(e.target.value)}
                     placeholder="Il tuo nickname"
                     sx={{
@@ -233,17 +244,17 @@ export default function HomeLobbyPage() {
                 <SectionCard title="Profilo" styles={styles} sx={{ mt: 2 }}>
                     <Box sx={{ display: "grid", gridTemplateColumns: "1fr", gap: 1.25 }}>
                         <ActionTile
-                            title="Aspetto"
-                            subtitle="Personalizza il tuo killer"
-                            icon={<PaletteOutlinedIcon />}
-                            onClick={goLooks}
-                            styles={styles}
-                        />
-                        <ActionTile
                             title="Statistiche"
                             subtitle="K/D: 2.4 · Vittorie: 45"
                             icon={<QueryStatsOutlinedIcon />}
                             onClick={goStats}
+                            styles={styles}
+                        />
+                        <ActionTile
+                            title="Aspetto"
+                            subtitle="Personalizza il tuo killer"
+                            icon={<PaletteOutlinedIcon />}
+                            onClick={goLooks}
                             styles={styles}
                         />
                     </Box>
