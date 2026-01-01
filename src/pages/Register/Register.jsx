@@ -27,6 +27,7 @@ import GoogleButton from "../../components/googleButton/GoogleButton.jsx";
 import { googleLoginAndCreateSession } from "../../login.js";
 import { useNavigate } from "react-router-dom";
 import { useMe } from "../../useMe.js";
+import { signupAndCreateSession } from "../../login.js";
 
 export default function RegisterPage() {
     const theme = useTheme();
@@ -44,6 +45,7 @@ export default function RegisterPage() {
     }, [theme]);
 
     const [email, setEmail] = useState("");
+    const [username, setUsername] = useState("");
     const [pass, setPass] = useState("");
     const [pass2, setPass2] = useState("");
     const [accept, setAccept] = useState(false);
@@ -56,13 +58,16 @@ export default function RegisterPage() {
 
     const onGoogle = async () => {
         await googleLoginAndCreateSession()
-        useMe()
+        // useMe()
         navigate("/home");
     };
 
     const onRegister = (e) => {
         e.preventDefault();
-        // TODO: register with email/pass
+        signupAndCreateSession({ email, password: pass, displayName:username }).then(() => {
+            // useMe()
+            navigate("/home");
+        });
     };
 
     const goLogin = () => {
@@ -152,6 +157,22 @@ export default function RegisterPage() {
                     {/* Form */}
                     <Box component="form" onSubmit={onRegister} noValidate>
                         <Stack spacing={1.6}>
+                            <FieldLabel>Username</FieldLabel>
+                            <TextField
+                                value={username}
+                                onChange={(e) => setUsername(e.target.value)}
+                                placeholder="agente007"
+                                fullWidth
+                                autoComplete="username"
+                                sx={inputSx(styles)}
+                                InputProps={{
+                                    startAdornment: (
+                                        <InputAdornment position="start">
+                                            <EmailRoundedIcon sx={{ color: alpha(styles.fg, 0.65) }} />
+                                        </InputAdornment>
+                                    ),
+                                }}
+                            />
                             <FieldLabel>Email</FieldLabel>
                             <TextField
                                 value={email}

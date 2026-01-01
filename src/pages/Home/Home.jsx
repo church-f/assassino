@@ -137,6 +137,7 @@ export default function HomeLobbyPage() {
                     <Button
                         fullWidth
                         onClick={onCreateRoom}
+                        disabled={!nickname.trim()}
                         sx={{
                             borderRadius: 3.5,
                             textTransform: "none",
@@ -219,7 +220,7 @@ export default function HomeLobbyPage() {
                                         <IconButton
                                             aria-label="Entra"
                                             onClick={onJoinRoom}
-                                            disabled={!roomCode.trim()}
+                                            disabled={!roomCode.trim() || !nickname.trim()}
                                             sx={{
                                                 width: 44,
                                                 height: 44,
@@ -245,7 +246,7 @@ export default function HomeLobbyPage() {
                     <Box sx={{ display: "grid", gridTemplateColumns: "1fr", gap: 1.25 }}>
                         <ActionTile
                             title="Statistiche"
-                            subtitle="K/D: 2.4 · Vittorie: 45"
+                            subtitle={user ? `${user.statistiche.partite} partite giocate` : "Registrati per visualizzare \n le tue statistiche"}
                             icon={<QueryStatsOutlinedIcon />}
                             onClick={goStats}
                             styles={styles}

@@ -14,7 +14,7 @@ import { apiFetch } from "./api";
  * Prende un Firebase user già autenticato (email/pass o Google),
  * e crea la session cookie HttpOnly sul backend.
  */
-async function createServerSessionFromUser(user) {
+async function createServerSessionFromUser(user, displayName) {
   const idToken = await user.getIdToken();
 
   // CSRF cookie + token
@@ -23,7 +23,7 @@ async function createServerSessionFromUser(user) {
   // crea session cookie server-side
   await apiFetch("/auth/session", {
     method: "POST",
-    body: { idToken },
+    body: { idToken, displayName },
     headers: { "x-csrf-token": csrfToken }
   });
 
@@ -41,7 +41,7 @@ export async function signupAndCreateSession({ email, password, displayName }) {
     await updateProfile(cred.user, { displayName });
   }
 
-  return createServerSessionFromUser(cred.user);
+  return createServerSessionFromUser(cred.user, displayName);
 }
 
 // Google: login/signup + session (Popup)

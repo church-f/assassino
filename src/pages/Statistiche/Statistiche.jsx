@@ -25,6 +25,8 @@ import GroupsRoundedIcon from "@mui/icons-material/GroupsRounded";
 import { useMe } from "../../useMe";
 import { useNavigate } from "react-router-dom";
 import StatsAuthGatePage from "./Accedi.jsx";
+import PeopleIcon from '@mui/icons-material/People';
+import LocalPoliceIcon from '@mui/icons-material/LocalPolice';
 
 export default function StatistichePage() {
     const theme = useTheme();
@@ -229,14 +231,14 @@ export default function StatistichePage() {
                                 <RoleCard
                                     title="SBIRRO"
                                     value={player.roles.cop}
-                                    icon={<ShieldRoundedIcon />}
+                                    icon={<LocalPoliceIcon />}
                                     gradient="linear-gradient(135deg, rgba(59,130,246,1) 0%, rgba(37,99,235,1) 100%)"
                                     styles={styles}
                                 />
                                 <RoleCard
                                     title="COMPLICE"
                                     value={player.roles.accomplice}
-                                    icon={<GroupsRoundedIcon />}
+                                    icon={<PeopleIcon />}
                                     gradient="linear-gradient(135deg, rgba(220,38,38,1) 0%, rgba(153,27,27,1) 100%)"
                                     styles={styles}
                                 />

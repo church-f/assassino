@@ -23,6 +23,7 @@ import WarningAmberRoundedIcon from "@mui/icons-material/WarningAmberRounded";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import { apiFetch } from "../../api.js";
 import { useNavigate } from "react-router-dom";
+import EndGameDialog from "./EndGameDialog.jsx";
 
 export default function Gioco(props) {
   const navigate = useNavigate();
@@ -362,59 +363,14 @@ export default function Gioco(props) {
         </Dialog>
 
         {/* Termina partita */}
-        <Dialog
+        <EndGameDialog
           open={openEndGame}
           onClose={() => setOpenEndGame(false)}
-          fullWidth
-          maxWidth="xs"
-        >
-          <DialogTitle sx={{ fontWeight: 950 }}>Termina partita</DialogTitle>
-          <DialogContent dividers>
-            
-            Chi ha vinto?
-            <ToggleButtonGroup
-              value={alignment}
-              exclusive
-              onChange={handleAlignment}
-              aria-label="text alignment"
-            >
-              <ToggleButton value="assassino" aria-label="Assassino">
-                Assassino
-              </ToggleButton>
-              <ToggleButton value="cittadini" aria-label="Cittadini">
-                Cittadini
-              </ToggleButton>
-            </ToggleButtonGroup>
-           
-            {/* <Typography sx={{ fontSize: 14, opacity: 0.85 }}>
-              Terminare e iniziare una nuova partita?
-            </Typography> */}
-          </DialogContent>
-          <DialogActions>
-            <Button
-              onClick={() => setOpenEndGame(false)}
-              sx={{ textTransform: "none", fontWeight: 900 }}
-            >
-              Annulla
-            </Button>
-            <Button
-              onClick={() => {
-                endGame();
-                setOpenEndGame(false);
-              }}
-              sx={{
-                textTransform: "none",
-                fontWeight: 950,
-                color: "#fff",
-                background:
-                  "linear-gradient(90deg, rgba(225,29,72,1) 0%, rgba(190,18,60,1) 45%, rgba(153,27,27,1) 100%)",
-                "&:hover": { opacity: 0.95 },
-              }}
-            >
-              Sì
-            </Button>
-          </DialogActions>
-        </Dialog>
+          onConfirm={() => {
+            endGame();
+            setOpenEndGame(false);
+          }}
+        />
       </Container>
     </Box>
   );
