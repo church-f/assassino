@@ -39,11 +39,11 @@ export default function Gioco(props) {
     setAlignment(newAlignment);
   };
 
-  const endGame = () => {
+  const endGame = (vincitore) => {
     // chiamata API per terminare la partita
     apiFetch(`/rooms/${props.room.code}/end`, {
       method: "POST",
-      body: { winningRole: alignment },
+      body: { winningRole: vincitore },
     });
   };
 
@@ -366,8 +366,8 @@ export default function Gioco(props) {
         <EndGameDialog
           open={openEndGame}
           onClose={() => setOpenEndGame(false)}
-          onConfirm={() => {
-            endGame();
+          onConfirm={(vincitore) => {
+            endGame(vincitore);
             setOpenEndGame(false);
           }}
         />

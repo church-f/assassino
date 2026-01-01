@@ -51,25 +51,25 @@ export default function EndGameDialog({
   };
 
   const cardSx = (isSelected) => ({
-    flex: 1,
-    minWidth: 0,
-    borderRadius: 3,
-    py: 2,
-    px: 1.5,
-    border: "1px solid",
-    borderColor: isSelected
-      ? alpha(theme.palette.primary.main, 0.55)
-      : alpha(theme.palette.text.primary, 0.08),
-    backgroundColor: isSelected
-      ? alpha(theme.palette.primary.main, 1)
-      : alpha(theme.palette.text.primary, 0.03),
-    boxShadow: isSelected ? `0 10px 30px ${alpha(theme.palette.primary.main, 0.15)}` : "none",
-    textTransform: "none",
-    "&:hover": {
-      backgroundColor: isSelected
-        ? alpha(theme.palette.primary.main, 0.12)
-        : alpha(theme.palette.text.primary, 0.05)
-    }
+    // flex: 1,
+    // minWidth: 0,
+    // borderRadius: 3,
+    // py: 2,
+    // px: 1.5,
+    // border: "1px solid",
+    // borderColor: isSelected
+    //   ? alpha(theme.palette.primary.main, 0.55)
+    //   : alpha(theme.palette.text.primary, 0.08),
+    // backgroundColor: isSelected
+    //   ? theme.palette.primary.main
+    //   : alpha(theme.palette.text.primary, 0.03),
+    // boxShadow: isSelected ? `0 10px 30px ${alpha(theme.palette.primary.main, 0.15)}` : "none",
+    // textTransform: "none",
+    // "&:hover": {
+    //   backgroundColor: isSelected
+    //     ? alpha(theme.palette.primary.main, 0.12)
+    //     : alpha(theme.palette.text.primary, 0.05)
+    // }
   });
 
   const iconCircleSx = (isSelected, accent) => ({
@@ -120,6 +120,7 @@ export default function EndGameDialog({
         <ToggleButtonGroup
           value={winner}
           exclusive
+          color="primary"
           onChange={handleWinnerChange}
           fullWidth
           sx={{
