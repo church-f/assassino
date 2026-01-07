@@ -15,7 +15,7 @@ import PersonAddRoundedIcon from "@mui/icons-material/PersonAddRounded";
 import ArrowForwardRoundedIcon from "@mui/icons-material/ArrowForwardRounded";
 import { useNavigate } from "react-router-dom";
 
-export default function StatsAuthGatePage() {
+export default function StatsAuthGatePage(props) {
   const theme = useTheme();
   const navigate = useNavigate();
 
@@ -63,15 +63,15 @@ export default function StatsAuthGatePage() {
                 border: `1px solid ${styles.soft}`,
               }}
             >
-              <BarChartRoundedIcon sx={{ opacity: 0.9 }} />
+              <BarChartRoundedIcon sx={{ opacity: 0.9 }} color="chiaro"/>
             </Box>
 
             <Box sx={{ minWidth: 0 }}>
-              <Typography sx={{ fontWeight: 1000, fontSize: 18, letterSpacing: -0.2 }}>
-                Statistiche bloccate
+              <Typography sx={{ fontWeight: 1000, fontSize: 18, letterSpacing: -0.2 }} color="primary.secondary">
+                {props.titolo ? props.titolo : 'Statistiche bloccate'}
               </Typography>
-              <Typography sx={{ mt: 0.4, opacity: 0.75, fontSize: 13.5 }}>
-                Per vedere le tue statistiche devi accedere o creare un account.
+              <Typography sx={{ mt: 0.4, opacity: 0.75, fontSize: 13.5 }} color="primary.secondary">
+                {props.sottoTitolo ? props.sottoTitolo : 'Per vedere le tue statistiche devi accedere o creare un account.'}
               </Typography>
             </Box>
           </Stack>
@@ -125,9 +125,8 @@ export default function StatsAuthGatePage() {
             </Button>
           </Stack>
 
-          <Typography sx={{ mt: 1.8, fontSize: 12.5, opacity: 0.7 }}>
-            Tip: una volta fatto l’accesso, le tue partite verranno salvate e potrai vedere
-            progressi, K/D e ruoli giocati.
+          <Typography sx={{ mt: 1.8, fontSize: 12.5, opacity: 0.7 }} color="primary.secondary">
+            {props.tip ? props.tip : 'Tip: una volta fatto l’accesso, le tue partite verranno salvate e potrai vedere progressi, K/D e ruoli giocati.'}
           </Typography>
         </Paper>
       </Container>

@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { apiFetch } from '../api';
 import { useQueryClient } from "@tanstack/react-query";
 import { useMe } from '../useMe';
+import { useToast } from '../components/Toast.jsx';
 
 export default function PositionedMenu() {
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -15,6 +16,7 @@ export default function PositionedMenu() {
     const navigate = useNavigate();
     const qc = useQueryClient();
     const { data: user } = useMe();
+    const { showToast } = useToast();
 
     // const loggedUser = useSelector((state) => state.player.loggedUser);
 
@@ -24,6 +26,8 @@ export default function PositionedMenu() {
         await apiFetch("/auth/logout", {
             method: "POST",
             headers: { "x-csrf-token": csrfToken }
+        }, ()=>{
+            showToast({severity: 'success', message: "Logout effettuato con successo"});
         });
     }
 
@@ -55,7 +59,7 @@ export default function PositionedMenu() {
                 onClick={handleClick}
                 aria-label='menu'
             >
-                <Hamburger size={27} onToggle={(val) => { setAnchorEl(val) }} toggled={anchorEl} />
+                <Hamburger size={27} onToggle={(val) => { setAnchorEl(val) }} toggled={anchorEl} color="#fff"/>
                 {/* <MenuIcon /> */}
             </IconButton>
             <Menu

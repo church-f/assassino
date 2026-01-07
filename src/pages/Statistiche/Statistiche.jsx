@@ -27,6 +27,7 @@ import { useNavigate } from "react-router-dom";
 import StatsAuthGatePage from "./Accedi.jsx";
 import PeopleIcon from '@mui/icons-material/People';
 import LocalPoliceIcon from '@mui/icons-material/LocalPolice';
+import LockOutlineIcon from '@mui/icons-material/LockOutline';
 
 export default function StatistichePage() {
     const theme = useTheme();
@@ -48,7 +49,7 @@ export default function StatistichePage() {
             accomplice: stastistiche.complice,
         },
         performance: {
-            winPctTotal: stastistiche.partite > 0 ? Math.round((stastistiche.vittorie / stastistiche.partite) * 100) : 0,
+            winPctTotal: user?.plus ? (stastistiche.partite > 0 ? Math.round((stastistiche.vittorie / stastistiche.partite) * 100) : 0) : '-',
         },
     };
 
@@ -188,25 +189,33 @@ export default function StatistichePage() {
                             {/* Totals */}
                             <Box sx={{ mt: 2.5, display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 1.2 }}>
                                 <MiniStat
-                                    icon={<SportsEsportsRoundedIcon />}
+                                    icon={<SportsEsportsRoundedIcon color='chiaro'/>}
                                     label="PARTITE"
                                     value={player.totals.played}
                                     styles={styles}
+                                    plus={true}
                                 />
                                 <MiniStat
-                                    icon={<EmojiEventsRoundedIcon />}
+                                    icon={<EmojiEventsRoundedIcon color='chiaro'/>}
                                     label="VINTE"
                                     value={player.totals.wins}
                                     styles={styles}
+                                    plus={user.plus}
                                 />
                                 <MiniStat
-                                    icon={<CloseRoundedIcon />}
+                                    icon={<CloseRoundedIcon color='chiaro'/>}
                                     label="PERSE"
                                     value={player.totals.losses}
                                     styles={styles}
                                     tone="danger"
+                                    plus={user.plus}
                                 />
                             </Box>
+                            {
+                                !user.plus && <Typography sx={{ margin: '15px 0' }}>
+                                    Passa al <p style={{ display: 'inline', fontWeight: 'bold' }}>Plus</p> per sbloccare tutte le statistiche!
+                                </Typography>
+                            }
 
                             {/* Role stats */}
                             <Typography sx={{ mt: 2.6, fontWeight: 950, fontSize: 14.5 }}>
@@ -220,6 +229,7 @@ export default function StatistichePage() {
                                     icon={<GppGoodRoundedIcon />}
                                     gradient="linear-gradient(135deg, rgba(185,28,28,1) 0%, rgba(127,29,29,1) 100%)"
                                     styles={styles}
+                                    plus={user.plus}
                                 />
                                 <RoleCard
                                     title="RIANIMATRICE"
@@ -227,6 +237,7 @@ export default function StatistichePage() {
                                     icon={<MedicalServicesRoundedIcon />}
                                     gradient="linear-gradient(135deg, rgba(2,132,199,1) 0%, rgba(3,105,161,1) 100%)"
                                     styles={styles}
+                                    plus={user.plus}
                                 />
                                 <RoleCard
                                     title="SBIRRO"
@@ -234,6 +245,7 @@ export default function StatistichePage() {
                                     icon={<LocalPoliceIcon />}
                                     gradient="linear-gradient(135deg, rgba(59,130,246,1) 0%, rgba(37,99,235,1) 100%)"
                                     styles={styles}
+                                    plus={user.plus}
                                 />
                                 <RoleCard
                                     title="COMPLICE"
@@ -241,6 +253,7 @@ export default function StatistichePage() {
                                     icon={<PeopleIcon />}
                                     gradient="linear-gradient(135deg, rgba(220,38,38,1) 0%, rgba(153,27,27,1) 100%)"
                                     styles={styles}
+                                    plus={user.plus}
                                 />
                             </Box>
 
@@ -256,13 +269,13 @@ export default function StatistichePage() {
                                 }}
                             >
                                 <Stack direction="row" alignItems="center" justifyContent="space-between">
-                                    <Typography sx={{ fontWeight: 950, fontSize: 14.5 }}>Performance</Typography>
-                                    <Typography sx={{ fontWeight: 1000, fontSize: 16 }}>
+                                    <Typography sx={{ fontWeight: 950, fontSize: 14.5 }} color="primary.secondary">Performance</Typography>
+                                    <Typography sx={{ fontWeight: 1000, fontSize: 16 }} color="primary.secondary">
                                         {player.performance.winPctTotal}%
                                     </Typography>
                                 </Stack>
 
-                                <Typography sx={{ mt: 0.4, fontSize: 12.5, opacity: 0.75 }}>
+                                <Typography sx={{ mt: 0.4, fontSize: 12.5, opacity: 0.75 }} color="primary.secondary">
                                     Percentuale di vittorie totale
                                 </Typography>
 
@@ -281,6 +294,12 @@ export default function StatistichePage() {
                                             },
                                         }}
                                     />
+                                    {
+                                        !user.plus ? <Typography color="primary.secondary">
+                                            scopri la tua percentuale di vittorie totale con il Plus!
+                                        </Typography> : ''
+                                    }
+
                                 </Box>
 
                                 <Divider sx={{ my: 1.6, borderColor: styles.soft }} />
@@ -308,7 +327,7 @@ export default function StatistichePage() {
 
 }
 
-function MiniStat({ icon, label, value, styles, tone }) {
+function MiniStat({ icon, label, value, styles, tone, plus }) {
     const toneColor =
         tone === "danger" ? "rgba(239,68,68,0.14)" : alpha(styles.fg, 0.06);
 
@@ -338,17 +357,18 @@ function MiniStat({ icon, label, value, styles, tone }) {
                 {icon}
             </Box>
 
-            <Typography sx={{ mt: 0.9, fontWeight: 1000, fontSize: 16 }}>
-                {Number(value).toLocaleString("it-IT")}
+            <Typography sx={{ mt: 0.9, fontWeight: 1000, fontSize: 16 }} color="primary.secondary">
+                {!plus && <LockOutlineIcon color="primary" fontSize="small" />}
+                {!plus ? '***' : Number(value).toLocaleString("it-IT")}
             </Typography>
-            <Typography sx={{ mt: 0.2, fontSize: 11, opacity: 0.75, letterSpacing: 0.9 }}>
+            <Typography sx={{ mt: 0.2, fontSize: 11, opacity: 0.75, letterSpacing: 0.9 }} color="primary.secondary">
                 {label}
             </Typography>
         </Paper>
     );
 }
 
-function RoleCard({ title, value, icon, gradient, styles }) {
+function RoleCard({ title, value, icon, gradient, styles, plus }) {
     return (
         <Paper
             elevation={0}
@@ -395,11 +415,12 @@ function RoleCard({ title, value, icon, gradient, styles }) {
                     </Box>
 
                     <Typography sx={{ fontWeight: 1000, fontSize: 24, letterSpacing: 0.4 }}>
-                        {value}
+                        {plus ? value : '***'}
                     </Typography>
                 </Stack>
 
-                <Typography sx={{ mt: 1.2, fontWeight: 950, fontSize: 12, letterSpacing: 1 }}>
+                <Typography sx={{ mt: 1.2, fontWeight: 950, fontSize: 12, letterSpacing: 1, display: "flex", alignItems: "center", gap: 0.4, marginTop: '15px' }}>
+                    {!plus && <LockOutlineIcon color="primary" fontSize="small" />}
                     {title}
                 </Typography>
             </Box>
@@ -407,30 +428,4 @@ function RoleCard({ title, value, icon, gradient, styles }) {
     );
 }
 
-function SmallRate({ title, value, emphasis, styles }) {
-    return (
-        <Paper
-            elevation={0}
-            sx={{
-                p: 1.4,
-                borderRadius: 4,
-                bgcolor: styles.card2,
-                border: `1px solid ${styles.soft}`,
-            }}
-        >
-            <Typography sx={{ fontSize: 11.5, opacity: 0.75 }}>
-                {title}
-            </Typography>
-            <Typography
-                sx={{
-                    mt: 0.6,
-                    fontWeight: 1000,
-                    fontSize: 16,
-                    color: emphasis ? "#EF4444" : "primary.main",
-                }}
-            >
-                {value}
-            </Typography>
-        </Paper>
-    );
-}
+

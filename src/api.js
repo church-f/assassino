@@ -1,5 +1,4 @@
 const API = import.meta.env.VITE_API_URL;
-import { showToast } from "./components/Toast";
 
 export async function apiFetch(path, { method="GET", body, headers } = {}, cb, cbErr) {
   const res = await fetch(`${API}${path}`, {

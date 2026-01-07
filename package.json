@@ -19,6 +19,7 @@
     "emailjs": "^4.0.3",
     "firebase": "^12.6.0",
     "hamburger-react": "^2.5.2",
+    "lottie-react": "^2.4.1",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-ga4": "^2.1.0",

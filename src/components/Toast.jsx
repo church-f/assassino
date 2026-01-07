@@ -1,46 +1,84 @@
-import React from 'react';
-import MuiAlert from '@mui/material/Alert';
-import Snackbar from '@mui/material/Snackbar';
-import { Button } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
-// import { t } from 'i18next';
-// import { useSelector } from "react-redux";
-// import { startCheckout } from "../api";
+import React, { createContext, useCallback, useContext, useMemo, useState } from "react";
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
 
-const Alert = React.forwardRef(function Alert(props, ref) {
-    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-});
+/**
+ * @typedef {"success"|"info"|"warning"|"error"} Severity
+ *
+ * @typedef ToastOptions
+ * @property {Severity} severity
+ * @property {string} message
+ * @property {boolean=} persist         // se true non si chiude da solo
+ * @property {boolean=} hideIcon
+ * @property {boolean=} closable
+ * @property {number=} autoHideDuration // ms
+ * @property {"top"|"bottom"=} vertical
+ * @property {"left"|"center"|"right"=} horizontal
+ */
 
+const ToastContext = createContext(null);
 
-export default function Toast(props) {
-    const navigate = useNavigate();
+export function ToastProvider({ children }) {
+  const [toast, setToast] = useState({
+    open: false,
+    severity: "info",
+    message: "",
+    persist: false,
+    hideIcon: false,
+    closable: true,
+    autoHideDuration: 3500,
+    vertical: "bottom",
+    horizontal: "center",
+  });
 
-    // const loggedUser = useSelector((state) => state.player.loggedUser);
+  const showToast = useCallback((opts) => {
+    setToast((prev) => ({
+      ...prev,
+      ...opts,
+      open: true,
+      // fallback sensati
+      autoHideDuration:
+        opts?.persist ? null : (opts?.autoHideDuration ?? prev.autoHideDuration),
+    }));
+  }, []);
 
-    // const onTakeDiscount = () => {
-    //     if (loggedUser) {
-    //         startCheckout();
-    //     } else {
-    //         // Reindirizza alla pagina Plus per la registrazione/login
-    //         localStorage.setItem('isBuingPlus', true)
-    //         navigate('/register', {state:{isBuingPlus: true}} );
-    //     }
-    // }
-    return <Snackbar
-        open={props.open}
-        autoHideDuration={6000}
-        onClose={props.handleClose}
-        message={props.message}
-    >
+  const closeToast = useCallback((_, reason) => {
+    // evita che si chiuda cliccando fuori se vuoi
+    if (reason === "clickaway") return;
+    setToast((t) => ({ ...t, open: false }));
+  }, []);
+
+  const value = useMemo(() => ({ showToast }), [showToast]);
+
+  return (
+    <ToastContext.Provider value={value}>
+      {children}
+
+      <Snackbar
+        open={toast.open}
+        onClose={closeToast}
+        autoHideDuration={toast.persist ? null : toast.autoHideDuration}
+        anchorOrigin={{ vertical: toast.vertical, horizontal: toast.horizontal }}
+      >
         <Alert
-            onClose={props.handleClose}
-            severity={props.severity ?? 'success'}
-            message={props.message}
+          onClose={toast.closable ? closeToast : undefined}
+          severity={toast.severity}
+          variant="filled"
+          icon={toast.hideIcon ? false : undefined}
+          sx={{ width: "100%" }}
         >
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexDirection: 'column', gap: '10px' }} >
-                {props.message}
-                {/* {props.ctaPlus ? <Button onClick={onTakeDiscount} size='small' style={{ background: 'white', }}>{t('Passa a plus')}</Button> : null} */}
-            </div>
+          {toast.message}
         </Alert>
-    </Snackbar>
+      </Snackbar>
+    </ToastContext.Provider>
+  );
 }
+
+export function useToast() {
+  const ctx = useContext(ToastContext);
+  if (!ctx) {
+    throw new Error("useToast deve essere usato dentro <ToastProvider />");
+  }
+  return ctx;
+}
+    

@@ -1,0 +1,16 @@
+.entry-overlay{
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+
+/* se il video è pensato per coprire tutto lo schermo */
+.entry-video{
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* cover = full screen, contain = non taglia */
+}

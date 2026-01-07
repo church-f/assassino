@@ -36,14 +36,14 @@ export default function Attesa(props) {
                 border: "1px solid rgba(255,255,255,0.12)",
               }}
             >
-              <HourglassBottomRoundedIcon sx={{ opacity: 0.9 }} />
+              <HourglassBottomRoundedIcon sx={{ opacity: 0.9 }} color="chiaro"/>
             </Box>
 
             <Box sx={{ minWidth: 0 }}>
-              <Typography sx={{ fontWeight: 950, fontSize: 16, lineHeight: 1.2 }}>
+              <Typography sx={{ fontWeight: 950, fontSize: 16, lineHeight: 1.2 }} color="primary.secondary">
                 In attesa…
               </Typography>
-              <Typography sx={{ mt: 0.4, opacity: 0.78, fontSize: 13.5 }}>
+              <Typography sx={{ mt: 0.4, opacity: 0.78, fontSize: 13.5 }} color="primary.secondary">
                 La partita è in corso, al prossimo turno entrerai automaticamente
               </Typography>
             </Box>

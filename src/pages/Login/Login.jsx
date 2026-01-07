@@ -23,10 +23,12 @@ import VisibilityOffRoundedIcon from "@mui/icons-material/VisibilityOffRounded";
 import ArrowForwardRoundedIcon from "@mui/icons-material/ArrowForwardRounded";
 import { useNavigate } from "react-router-dom";
 import GoogleButton from "../../components/googleButton/GoogleButton.jsx";
+import { useToast } from "../../components/Toast.jsx";
 
 export default function LoginPage() {
     const theme = useTheme();
     const navigate = useNavigate();
+    const { showToast } = useToast();
 
     const styles = useMemo(() => {
         const fg = theme.palette.primary.main; // testo
@@ -49,6 +51,7 @@ export default function LoginPage() {
 
     const onGoogle = () => {
         googleLoginAndCreateSession().then(() => {
+            showToast({severity: 'success', message: "Accesso con Google effettuato con successo"});
             navigate("/home");
         })
     };
@@ -255,7 +258,7 @@ export default function LoginPage() {
                                 }}
                             />
 
-                            <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 0.2 }}>
+                            {/* <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 0.2 }}>
                                 <Link
                                     component="button"
                                     onClick={onForgot}
@@ -264,7 +267,7 @@ export default function LoginPage() {
                                 >
                                     Password dimenticata?
                                 </Link>
-                            </Box>
+                            </Box> */}
 
                             {/* CTA */}
                             <Button

@@ -24,10 +24,12 @@ import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import { apiFetch } from "../../api.js";
 import { useNavigate } from "react-router-dom";
 import EndGameDialog from "./EndGameDialog.jsx";
+import { useToast } from "../../components/Toast.jsx";
 
 export default function Gioco(props) {
   const navigate = useNavigate();
   const [openEndGame, setOpenEndGame] = React.useState(false);
+  const { showToast } = useToast();
 
   const [alignment, setAlignment] = React.useState("assassino");
   const [openListPlayers, setOpenListPlayers] = React.useState(false);
@@ -44,6 +46,8 @@ export default function Gioco(props) {
     apiFetch(`/rooms/${props.room.code}/end`, {
       method: "POST",
       body: { winningRole: vincitore },
+    }, null, (err)=>{
+        showToast({severity: 'error', message: err.message});
     });
   };
 
@@ -110,7 +114,7 @@ export default function Gioco(props) {
               gap: 1,
             }}
           >
-            <Typography sx={{ fontWeight: 950, fontSize: 13.5, opacity: 0.9 }}>
+            <Typography sx={{ fontWeight: 950, fontSize: 13.5, opacity: 0.9 }} color="primary.secondary">
               Partita in corso
             </Typography>
             <Chip
@@ -164,10 +168,10 @@ export default function Gioco(props) {
             border: "1px solid rgba(255,255,255,0.12)",
           }}
         >
-          <Typography sx={{ fontWeight: 950, fontSize: 18, letterSpacing: -0.2 }}>
+          <Typography sx={{ fontWeight: 950, fontSize: 18, letterSpacing: -0.2 }} color="primary.secondary">
             Gioco in corso…
           </Typography>
-          <Typography sx={{ mt: 0.6, opacity: 0.75, fontSize: 13.5 }}>
+          <Typography sx={{ mt: 0.6, opacity: 0.75, fontSize: 13.5 }} color="primary.secondary">
             Fate le accuse quando siete pronti. Se sei admin puoi terminare e far ripartire.
           </Typography>
 
@@ -233,7 +237,7 @@ export default function Gioco(props) {
               </Box>
 
               <Box sx={{ flex: 1, minWidth: 0 }}>
-                <Typography sx={{ fontWeight: 950, fontSize: 12.5, opacity: 0.75 }}>
+                <Typography sx={{ fontWeight: 950, fontSize: 12.5, opacity: 0.75 }} color="primary.secondary">
                   IL TUO RUOLO
                 </Typography>
 
@@ -247,12 +251,13 @@ export default function Gioco(props) {
                     textTransform: "uppercase",
                     textShadow: "0 12px 40px rgba(0,0,0,0.18)",
                   }}
+                  color="primary.secondary"
                 >
                   {roleLabel}
                 </Typography>
               </Box>
 
-              {isAdmin ? (
+              {/* {isAdmin ? (
                 <Chip
                   size="small"
                   label="Admin"
@@ -263,7 +268,7 @@ export default function Gioco(props) {
                     color: "primary.main",
                   }}
                 />
-              ) : null}
+              ) : null} */}
             </Stack>
           </Paper>
 

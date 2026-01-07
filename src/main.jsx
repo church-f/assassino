@@ -18,50 +18,63 @@ import RegisterPage from "./pages/Register/Register.jsx";
 import { useMe } from "./useMe.js";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import StatistichePage from "./pages/Statistiche/Statistiche.jsx";
-
+import { ToastProvider } from "./components/Toast.jsx";
+import ControllerPersonalizzazioni from './pages/Personalizzazioni/ControllerPersonalizzazioni.jsx'
+import { apiFetch } from "./api.js";
 const queryClient = new QueryClient();
 
 const Main = () => {
   let { data } = useMe();
-  console.log(data);
   useEffect(() => {
     initGA();
+    apiFetch('/utils/Enums', undefined, (data) => {
+      window.Enums = data
+    })
   }, []);
 
   const theme = createTheme({
+    typography: {
+      fontFamily: "'Poppins', 'Lato', sans-serif",
+    },
     palette: {
       primary: {
-        main: '#003049',
-        secondary: '#669BBC'
+        main: '#E5383B',
+        secondary: '#e7e7e7ff'
       },
       secondary: {
-        main: '#FDF0D5'
+        main: '#161A1D'
       },
       red: {
         main: '#C1121F'
+      },
+      chiaro: {
+        main: '#F5F3F4'
       }
     },
   });
 
   return (
     <ThemeProvider theme={theme}>
-      <Router>
-        <PageTracker />
-        {/* <AutomaticAdsManager /> */}
-        <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/home" element={<Home />} />
-          <Route path="/regole" element={<Regole />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/statistiche" element={<StatistichePage />} />
-          <Route path="/registrati" element={<RegisterPage />} />
-          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-          <Route path="/contattaci" element={<ContactPage />} />
-          <Route path="/stanza/:roomCode" element={<Stanza />} />
-          <Route path="/invito/:roomCode" element={<Invito />} />
-          <Route path="*" element={<LandingPage />} />
-        </Routes>
-      </Router>
+      <ToastProvider>
+        <Router>
+          <PageTracker />
+          {/* <AutomaticAdsManager /> */}
+          <Routes>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/home" element={<Home />} />
+            <Route path="/regole" element={<Regole />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/statistiche" element={<StatistichePage />} />
+            <Route path="/personalizzazioni" element={<ControllerPersonalizzazioni />} />
+            <Route path="/registrati" element={<RegisterPage />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+            <Route path="/contattaci" element={<ContactPage />} />
+            <Route path="/stanza/:roomCode" element={<Stanza />} />
+            <Route path="/invito/:roomCode" element={<Invito />} />
+            <Route path="*" element={<LandingPage />} />
+          </Routes>
+        </Router>
+      </ToastProvider>
     </ThemeProvider>
   );
 };

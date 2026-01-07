@@ -21,12 +21,14 @@ import { apiFetch } from "../../api";
 import { useNavigate } from "react-router-dom";
 import PositionedMenu from '../../components/Menu.jsx';
 import { useMe } from "../../useMe.js";
+import { useToast } from "../../components/Toast.jsx";
 
 export default function HomeLobbyPage() {
     const theme = useTheme();
     const [roomCode, setRoomCode] = useState("");
     const navigate = useNavigate();
     const [nickname, setNickname] = useState("");
+    const { showToast } = useToast();
 
     const { data: user } = useMe();
     React.useEffect(() => {
@@ -60,12 +62,23 @@ export default function HomeLobbyPage() {
             localStorage.setItem("playerId", data.playerId);
             localStorage.setItem("isAdmin", JSON.stringify(false));
             navigate(`/stanza/${roomCode}`);
+        }, (err, res) => {
+            showToast({ severity: 'error', message: err.message || "Errore durante l'accesso alla stanza" });
         })
     };
-    const goLooks = () => { };
+    const goLooks = () => {
+        navigate("/personalizzazioni");
+    };
     const goStats = () => {
         navigate("/statistiche");
-     };
+    };
+
+    const changeDisplayName = (name) => {
+        setNickname(name);
+        apiFetch('/utils/changeDisplayName', { method: 'PUT', body: { displayName: name, firebaseUid: user?.uid } }, (data, res) => {
+            // showToast({ severity: 'success', message: 'Nickname aggiornato con successo!' });
+        });
+    }
 
     return (
         <Box sx={{ minHeight: "100vh", bgcolor: "secondary.main", color: "primary.main" }}>
@@ -92,26 +105,44 @@ export default function HomeLobbyPage() {
                 </Box>
 
                 {/* Hero */}
-                <Box sx={{ mt: 4 }}>
+                <Box sx={{ mt: 4, mb: 1 }}>
                     <Typography
                         sx={{
-                            fontWeight: 950,
+                            fontWeight: 650,
                             fontSize: 38,
                             lineHeight: 1.05,
                             letterSpacing: -0.8,
                         }}
+                        color="primary.secondary"
                     >
                         Pronto a colpire?
                     </Typography>
-                    <Typography sx={{ mt: 1, opacity: 0.75, fontSize: 14 }}>
+                    <Typography sx={{ mt: 1, opacity: 0.75, fontSize: 14 }} color="primary.secondary">
                         Crea una stanza privata oppure entra con un codice.
                     </Typography>
                 </Box>
                 <TextField
                     value={nickname}
                     label="Nickname"
-                    onChange={(e) => setNickname(e.target.value)}
+                    onChange={(e) => changeDisplayName(e.target.value)}
                     placeholder="Il tuo nickname"
+                    fullWidth
+                    InputLabelProps={{
+                        sx: {
+                            color: "chiaro.main",
+                            "&.Mui-focused": {
+                                color: "chiaro.main",
+                            },
+                        },
+                    }}
+                    inputProps={{
+                        sx: {
+                            "&::placeholder": {
+                                color: "chiaro.main",
+                                opacity: 0.7,
+                            },
+                        },
+                    }}
                     sx={{
                         width: "100%",
                         marginBottom: '10px',
@@ -122,11 +153,12 @@ export default function HomeLobbyPage() {
                             "& fieldset": { borderColor: styles.soft },
                             "&:hover fieldset": { borderColor: alpha(styles.fg, 0.22) },
                             "&.Mui-focused fieldset": { borderColor: alpha(styles.fg, 0.32) },
+                            color: "chiaro.main",
                         },
                         "& input": {
-                            color: "primary.main",
-                            fontWeight: 900,
-                            letterSpacing: 2,
+                            color: "chiaro.main",
+                            fontWeight: 600,
+                            // letterSpacing: 2,
                         },
                     }}
                 />
@@ -146,7 +178,7 @@ export default function HomeLobbyPage() {
                             justifyContent: "space-between",
                             color: "#fff",
                             background:
-                                "linear-gradient(90deg, rgba(225,29,72,1) 0%, rgba(190,18,60,1) 45%, rgba(153,27,27,1) 100%)",
+                               "linear-gradient(90deg, #660708 0%, #a11113ff 100%)",
                             boxShadow: "0 14px 40px rgba(153,27,27,0.22)",
                             "&:hover": {
                                 boxShadow: "0 18px 46px rgba(153,27,27,0.28)",
@@ -184,7 +216,7 @@ export default function HomeLobbyPage() {
 
                     {/* Entra con codice */}
                     <Box sx={{ mt: 1.6 }}>
-                        <Typography sx={{ fontWeight: 900, fontSize: 13.5, opacity: 0.9 }}>
+                        <Typography sx={{ fontWeight: 900, fontSize: 13.5, opacity: 0.9 }} color="primary.secondary">
                             Entra con codice
                         </Typography>
 
@@ -197,7 +229,7 @@ export default function HomeLobbyPage() {
                                 mt: 1,
                                 "& .MuiOutlinedInput-root": {
                                     borderRadius: 3,
-                                    bgcolor: styles.card2,
+                                    bgcolor: "linear-gradient(90deg, #660708 0%, #BA181B 45%, #E5383B 100%)",
                                     "& fieldset": { borderColor: styles.soft },
                                     "&:hover fieldset": { borderColor: alpha(styles.fg, 0.22) },
                                     "&.Mui-focused fieldset": { borderColor: alpha(styles.fg, 0.32) },
@@ -247,14 +279,14 @@ export default function HomeLobbyPage() {
                         <ActionTile
                             title="Statistiche"
                             subtitle={user ? `${user.statistiche.partite} partite giocate` : "Registrati per visualizzare \n le tue statistiche"}
-                            icon={<QueryStatsOutlinedIcon />}
+                            icon={<QueryStatsOutlinedIcon color="chiaro" />}
                             onClick={goStats}
                             styles={styles}
                         />
                         <ActionTile
                             title="Aspetto"
                             subtitle="Personalizza il tuo killer"
-                            icon={<PaletteOutlinedIcon />}
+                            icon={<PaletteOutlinedIcon color="chiaro" />}
                             onClick={goLooks}
                             styles={styles}
                         />
@@ -278,7 +310,7 @@ function SectionCard({ title, children, styles, sx }) {
                 ...sx,
             }}
         >
-            <Typography sx={{ fontWeight: 950, fontSize: 13.5, opacity: 0.9 }}>
+            <Typography sx={{ fontWeight: 950, fontSize: 13.5, opacity: 0.9 }} color="primary.secondary">
                 {title}
             </Typography>
             <Box sx={{ mt: 1.3 }}>{children}</Box>
@@ -321,7 +353,7 @@ function ActionTile({ title, subtitle, icon, onClick, styles }) {
                 </Box>
 
                 <Box sx={{ minWidth: 0 }}>
-                    <Typography sx={{ fontWeight: 950, fontSize: 14 }}>
+                    <Typography sx={{ fontWeight: 950, fontSize: 14 }} color="primary.secondary">
                         {title}
                     </Typography>
                     <Typography
@@ -333,6 +365,7 @@ function ActionTile({ title, subtitle, icon, onClick, styles }) {
                             overflow: "hidden",
                             textOverflow: "ellipsis",
                         }}
+                        color="primary.secondary"
                     >
                         {subtitle}
                     </Typography>
