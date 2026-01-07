@@ -16,6 +16,7 @@ export function EntryLottieOverlay({ item, onDone }) {
 
   return (
     <Box
+    id='dioporco'
       sx={{
         position: "fixed",
         bottom: 0,
@@ -23,7 +24,9 @@ export function EntryLottieOverlay({ item, onDone }) {
         right: 0,
         zIndex: 20000,
         pointerEvents: "none",
-        height: '100vh'
+        height: '100vh',
+        display: 'flex',
+        alignItems: 'flex-end'
       }}
       aria-hidden="true"
     >
@@ -33,7 +36,7 @@ export function EntryLottieOverlay({ item, onDone }) {
         loop={false}
         autoplay
         onComplete={onDone}         // IMPORTANT: sblocca la coda
-        style={{ width: "100%", height: "100%" }}
+        style={{ width: "100%"}}
       />
     </Box>
   );
