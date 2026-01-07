@@ -100,7 +100,7 @@ export default function RegoleDelGiocoPage({ onBack = () => {} }) {
             Sopravvivenza & <span style={{ color: P }}>Inganno</span>
           </Typography>
 
-          <Typography sx={{ fontSize: 13, lineHeight: 1.6, color: muted }}>
+          <Typography sx={{ fontSize: 13, lineHeight: 1.6 }} color="primary.secondary">
             In Assassino Online, la fiducia è una risorsa scarsa. Impara le regole
             fondamentali per dominare l’arena.
           </Typography>
@@ -151,7 +151,7 @@ export default function RegoleDelGiocoPage({ onBack = () => {} }) {
             border={border}
             muted={muted}
           >
-            <Typography sx={{ fontSize: 13, lineHeight: 1.7, color: muted }}>
+            <Typography sx={{ fontSize: 13, lineHeight: 1.7 }} color="primary.secondary">
               Il tuo obiettivo cambia in base al ruolo segreto assegnato all’inizio
               della partita. Gioca con attenzione, osserva le contraddizioni e non
               fidarti delle apparenze.
@@ -248,10 +248,10 @@ export default function RegoleDelGiocoPage({ onBack = () => {} }) {
             muted={muted}
           >
             <Stack spacing={1}>
-              <Typography sx={{ fontSize: 13, lineHeight: 1.7, color: muted }}>
-                • Gli Innocenti vincono se lo sbirro accusa correttamente l’Assassino.
+              <Typography sx={{ fontSize: 13, lineHeight: 1.7 }} color="primary.secondary">
+                • I cittadini vincono se lo sbirro accusa correttamente l’Assassino.
               </Typography>
-              <Typography sx={{ fontSize: 13, lineHeight: 1.7, color: muted }}>
+              <Typography sx={{ fontSize: 13, lineHeight: 1.7 }} color="primary.secondary">
                 • L’Assassino (e il complice) vincono se sia lo sbirro e sia la rianimatrice sono eliminati.
               </Typography>
             </Stack>
@@ -301,7 +301,7 @@ function MiniStat({ icon, label, value, P, surface, border, muted }) {
             >
               {label}
             </Typography>
-            <Typography sx={{ fontSize: 16, fontWeight: 1000, color: P }}>
+            <Typography sx={{ fontSize: 16, fontWeight: 1000 }} color="primary.secondary">
               {value}
             </Typography>
           </Box>
@@ -359,7 +359,7 @@ function RulesAccordion({ title, icon, children, P, BG, surface, border, muted }
           >
             {title}
           </Typography>
-          <Typography sx={{ fontSize: 12, color: muted }}>
+          <Typography sx={{ fontSize: 12 }} color="primary.secondary">
             Tocca per aprire i dettagli
           </Typography>
         </Box>
@@ -424,8 +424,9 @@ function RoleLine({ title, sections, P, muted }) {
                   fontWeight: 1000,
                   letterSpacing: 0.7,
                   textTransform: "uppercase",
-                  color: alpha(P, 0.9),
+                  // color: alpha(P, 0.9),
                 }}
+                color="primary.secondary"
               >
                 {it.label}
               </Typography>
@@ -434,8 +435,9 @@ function RoleLine({ title, sections, P, muted }) {
                   mt: 0.35,
                   fontSize: 12.5,
                   lineHeight: 1.65,
-                  color: muted,
+                  // color: muted,
                 }}
+                color="primary.secondary"
               >
                 {it.text}
               </Typography>

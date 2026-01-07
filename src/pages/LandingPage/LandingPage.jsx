@@ -286,11 +286,11 @@ export default function LandingPage() {
             />
             <StepCard
               title="Distribuisci i ruoli"
-              body="Ogni giocatore riceve un ruolo segreto: innocente, detective o assassino."
+              body="Ogni giocatore riceve un ruolo segreto: cittadino, sbirro o assassino."
             />
             <StepCard
               title="Uccidi o sopravvivi"
-              body="Gli assassini devono eliminare gli innocenti senza farsi scoprire. I detective devono proteggere gli innocenti e smascherare gli assassini."
+              body="Gli assassini devono eliminare i cittadini senza farsi scoprire. Lo sbirro devo proteggere i cittadini e smascherare gli assassini."
             />
           </Stack>
 

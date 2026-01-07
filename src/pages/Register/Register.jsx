@@ -164,10 +164,11 @@ export default function RegisterPage() {
                                 letterSpacing: -0.6,
                                 lineHeight: 1.1,
                             }}
+                            color="primary.secondary"
                         >
                             Unisciti all&apos;Ordine
                         </Typography>
-                        <Typography sx={{ textAlign: "center", mt: 1, opacity: 0.75, fontSize: 13.5 }}>
+                        <Typography sx={{ textAlign: "center", mt: 1, opacity: 0.75, fontSize: 13.5 }} color="primary.secondary">
                             Crea il tuo profilo assassino e inizia la tua prima missione.
                         </Typography>
 
@@ -177,7 +178,7 @@ export default function RegisterPage() {
                         {/* Divider */}
                         <Stack direction="row" alignItems="center" spacing={1.2} sx={{ my: 2.1 }}>
                             <Divider sx={{ flex: 1, borderColor: styles.soft }} />
-                            <Typography sx={{ fontSize: 11, opacity: 0.75, letterSpacing: 0.6 }}>
+                            <Typography sx={{ fontSize: 11, opacity: 0.75, letterSpacing: 0.6 }} color="primary.secondary">
                                 OPPURE REGISTRATI CON EMAIL
                             </Typography>
                             <Divider sx={{ flex: 1, borderColor: styles.soft }} />
@@ -186,7 +187,7 @@ export default function RegisterPage() {
                         {/* Form */}
                         <Box component="form" onSubmit={onRegister} noValidate>
                             <Stack spacing={1.6}>
-                                <FieldLabel>Username</FieldLabel>
+                                <FieldLabel >Username</FieldLabel>
                                 <TextField
                                     value={username}
                                     onChange={(e) => setUsername(e.target.value)}
@@ -202,7 +203,7 @@ export default function RegisterPage() {
                                         ),
                                     }}
                                 />
-                                <FieldLabel>Email</FieldLabel>
+                                <FieldLabel color="primary.secondary">Email</FieldLabel>
                                 <TextField
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
@@ -249,7 +250,7 @@ export default function RegisterPage() {
                                     }}
                                 />
 
-                                <FieldLabel>Conferma Password</FieldLabel>
+                                <FieldLabel inputLabelProps={{ style: {color: '#fff'}}}>Conferma Password</FieldLabel>
                                 <TextField
                                     value={pass2}
                                     onChange={(e) => setPass2(e.target.value)}
@@ -258,7 +259,9 @@ export default function RegisterPage() {
                                     fullWidth
                                     autoComplete="new-password"
                                     sx={inputSx(styles)}
+                                    inputLabelProps={{ style: { color: '#fff' } }}
                                     InputProps={{
+                                        color: 'primary.main',
                                         startAdornment: (
                                             <InputAdornment position="start">
                                                 <GppGoodRoundedIcon sx={{ color: alpha(styles.fg, 0.65) }} />
@@ -291,13 +294,13 @@ export default function RegisterPage() {
                                             "&.Mui-checked": { color: "primary.main" },
                                         }}
                                     />
-                                    <Typography sx={{ fontSize: 12.5, opacity: 0.85 }}>
+                                    <Typography sx={{ fontSize: 12.5, opacity: 0.85 }} color="primary.secondary">
                                         Accetto i{" "}
                                         <Link
                                             component="button"
                                             onClick={() => { }}
-                                            underline="hover"
-                                            sx={{ color: "primary.main", fontWeight: 900 }}
+                                            // underline="hover"
+                                            sx={{ color: "blu.light", fontWeight: 900 }}
                                         >
                                             Termini di Servizio
                                         </Link>{" "}
@@ -305,8 +308,8 @@ export default function RegisterPage() {
                                         <Link
                                             component="button"
                                             onClick={() => { }}
-                                            underline="hover"
-                                            sx={{ color: "primary.main", fontWeight: 900 }}
+                                            // underline="hover"
+                                            sx={{ color: "blu.light", fontWeight: 900 }}
                                         >
                                             Privacy Policy
                                         </Link>
@@ -351,8 +354,8 @@ export default function RegisterPage() {
                                     <Link
                                         component="button"
                                         onClick={goLogin}
-                                        underline="hover"
-                                        sx={{ color: "primary.main", fontWeight: 1000 }}
+                                        // underline="hover"
+                                        sx={{ color: "blu.light", fontWeight: 1000 }}
                                     >
                                         Accedi
                                     </Link>
@@ -376,7 +379,7 @@ export default function RegisterPage() {
 
 function FieldLabel({ children }) {
     return (
-        <Typography sx={{ fontWeight: 950, fontSize: 13, opacity: 0.9 }}>
+        <Typography sx={{ fontWeight: 950, fontSize: 13, opacity: 0.9 }} color="primary.secondary">
             {children}
         </Typography>
     );

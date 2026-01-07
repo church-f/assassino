@@ -152,11 +152,12 @@ export default function LoginPage() {
                             letterSpacing: -0.6,
                             lineHeight: 1.1,
                         }}
+                        color="primary.secondary"
                     >
                         Bentornato
                     </Typography>
 
-                    <Typography sx={{ textAlign: "center", mt: 1, opacity: 0.75, fontSize: 13.5 }}>
+                    <Typography sx={{ textAlign: "center", mt: 1, opacity: 0.75, fontSize: 13.5 }} color="primary.secondary">
                         Inserisci le tue credenziali per riprendere la missione.
                     </Typography>
 
@@ -202,7 +203,7 @@ export default function LoginPage() {
                     {/* Divider */}
                     <Stack direction="row" alignItems="center" spacing={1.2} sx={{ my: 2.1 }}>
                         <Divider sx={{ flex: 1, borderColor: styles.soft }} />
-                        <Typography sx={{ fontSize: 11, opacity: 0.75, letterSpacing: 0.6 }}>
+                        <Typography sx={{ fontSize: 11, opacity: 0.75, letterSpacing: 0.6 }} color="primary.secondary">
                             OPPURE ACCEDI CON EMAIL
                         </Typography>
                         <Divider sx={{ flex: 1, borderColor: styles.soft }} />
@@ -301,13 +302,13 @@ export default function LoginPage() {
                             </Button>
 
                             {/* Register */}
-                            <Typography sx={{ textAlign: "center", fontSize: 13, opacity: 0.8, mt: 1 }}>
+                            <Typography sx={{ textAlign: "center", fontSize: 13, opacity: 0.8, mt: 1 }} color="primary.secondary">
                                 Non hai ancora un account?{" "}
                                 <Link
                                     component="button"
                                     onClick={onRegister}
-                                    underline="hover"
-                                    sx={{ color: "primary.main", fontWeight: 1000 }}
+                                    // underline="hover"
+                                    sx={{ color: "blu.light", fontWeight: 1000 }}
                                 >
                                     Registrati
                                 </Link>
@@ -322,7 +323,7 @@ export default function LoginPage() {
 
 function FieldLabel({ children }) {
     return (
-        <Typography sx={{ fontWeight: 950, fontSize: 13, opacity: 0.9 }}>
+        <Typography sx={{ fontWeight: 950, fontSize: 13, opacity: 0.9 }} color="primary.secondary">
             {children}
         </Typography>
     );

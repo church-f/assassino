@@ -49,6 +49,10 @@ const Main = () => {
       },
       chiaro: {
         main: '#F5F3F4'
+      },
+      blu: {
+        main: '#003049',
+        light: '#669BBC'
       }
     },
   });
