@@ -20,6 +20,7 @@ import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
 import PlayArrowRoundedIcon from "@mui/icons-material/PlayArrowRounded";
 import MeetingRoomOutlinedIcon from "@mui/icons-material/MeetingRoomOutlined";
+import AvatarIcon from "../../components/AvatarIcon.jsx";
 
 import { useLottieQueue } from "./UsesLottieQueue";
 import { EntryLottieOverlay } from "./EntryLottieOverlay";
@@ -108,6 +109,11 @@ export default function Stanza() {
         apiFetch(`/rooms/${roomCode}/start`, { method: "POST" });
     }
 
+
+    function getColor(num){
+        return window.Enums.colors[num];
+    }
+
     function getContent() {
         let isWaiting = room.players.find((p) => p.playerId === playerId)?.isWaiting;
 
@@ -117,7 +123,7 @@ export default function Stanza() {
             return <Attesa room={room} playerId={playerId} />;
         }
 
-        // LOBBY (stessa logica di prima, UI migliorata)
+        // LOBBY (stessa logica di prima, UI migliorata)    
         const connectedCount = room.players.length;
 
         return (
@@ -235,7 +241,8 @@ export default function Stanza() {
                                                     border: "1px solid rgba(255,255,255,0.10)",
                                                 }}
                                             >
-                                                <PersonOutlineIcon sx={{ opacity: 0.85 }} color="chiaro" />
+                                                {/* <PersonOutlineIcon sx={{ opacity: 0.85 }} color="chiaro" /> */}
+                                                <AvatarIcon id={p.avatar} style={{ color: getColor(p.color) }} />
                                             </Box>
 
                                             <Box sx={{ minWidth: 0, flex: 1 }}>
@@ -247,7 +254,7 @@ export default function Stanza() {
                                                         overflow: "hidden",
                                                         textOverflow: "ellipsis",
                                                     }}
-                                                    color="primary.secondary"
+                                                    color={getColor(p.color)}
                                                 >
                                                     {p.name}
                                                 </Typography>

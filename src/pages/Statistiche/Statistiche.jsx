@@ -28,6 +28,7 @@ import StatsAuthGatePage from "./Accedi.jsx";
 import PeopleIcon from '@mui/icons-material/People';
 import LocalPoliceIcon from '@mui/icons-material/LocalPolice';
 import LockOutlineIcon from '@mui/icons-material/LockOutline';
+import AvatarIcon from "../../components/AvatarIcon.jsx";
 
 export default function StatistichePage() {
     const theme = useTheme();
@@ -115,7 +116,7 @@ export default function StatistichePage() {
                             </Stack>
 
                             {/* Profile */}
-                            <Box sx={{ mt: 2.5, textAlign: "center" }}>
+                            {/* <Box sx={{ mt: 2.5, textAlign: "center" }}>
                                 <Box sx={{ display: "grid", placeItems: "center" }}>
                                     <Box
                                         sx={{
@@ -140,7 +141,7 @@ export default function StatistichePage() {
                                             }}
                                         >
                                             <Avatar
-                                                src={player.avatarUrl}
+                                                // src={player.avatarUrl}
                                                 alt={player.name}
                                                 sx={{
                                                     width: "100%",
@@ -148,24 +149,11 @@ export default function StatistichePage() {
                                                     bgcolor: alpha(styles.fg, 0.12),
                                                     border: `1px solid ${styles.soft}`,
                                                 }}
-                                            />
+                                            >
 
-                                            {/* LVL badge */}
-                                            {/* <Chip
-                  size="small"
-                  label={`LVL ${player.level}`}
-                  sx={{
-                    position: "absolute",
-                    right: -6,
-                    bottom: -8,
-                    height: 24,
-                    fontWeight: 950,
-                    bgcolor: "#22C55E",
-                    color: "#fff",
-                    border: "2px solid rgba(255,255,255,0.35)",
-                    "& .MuiChip-label": { px: 1.1 },
-                  }}
-                /> */}
+                                                <AvatarIcon id={user?.personalizzazioni.avatar || 0} />
+                                            </Avatar>
+
                                         </Box>
                                     </Box>
                                 </Box>
@@ -181,10 +169,7 @@ export default function StatistichePage() {
                                     {player.name}
                                 </Typography>
 
-                                {/* <Typography sx={{ mt: 0.4, opacity: 0.75, fontSize: 13 }}>
-            {player.title}
-          </Typography> */}
-                            </Box>
+                            </Box> */}
 
                             {/* Totals */}
                             <Box sx={{ mt: 2.5, display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 1.2 }}>
