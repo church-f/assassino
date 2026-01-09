@@ -9,7 +9,7 @@ import DirectionsRunIcon from '@mui/icons-material/DirectionsRun';
 import DownhillSkiingIcon from '@mui/icons-material/DownhillSkiing';
 import Face2Icon from '@mui/icons-material/Face2';
 import Face4Icon from '@mui/icons-material/Face4';
-import Knife from '../components/Images/Knife.svg?react';
+import Knife from '../components/Images/knife.svg?react';
 import pistola from '../components/Images/pistola.svg?react';
 import lips from '../components/Images/lips.svg?react';
 import {SvgIcon} from '@mui/material';
