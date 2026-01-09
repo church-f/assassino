@@ -3,12 +3,18 @@ import Lottie from "lottie-react";
 import incendio from './incendio.json';
 import Fireworks from './Fireworks.json'
 import moneyRain from './money rain.json'
+import confetti from './Confetti.json'
+import pioggia from './pioggia.json'
+import stelleCadenti from './stelle cadenti.json'
 export function EntryLottieOverlay({ item, onDone }) {
   if (!item) return null;
   const animationDataByType = {
     0: incendio,
     1: Fireworks,
     2: moneyRain,
+    3: confetti,
+    4: pioggia,
+    5: stelleCadenti,
   };
 
   const anim = animationDataByType[item.type];
@@ -16,7 +22,6 @@ export function EntryLottieOverlay({ item, onDone }) {
 
   return (
     <Box
-    id='dioporco'
       sx={{
         position: "fixed",
         bottom: 0,

@@ -32,6 +32,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import PaidIcon from '@mui/icons-material/Paid';
 import { useLottieQueue } from "../Stanza/UsesLottieQueue";
 import { EntryLottieOverlay } from "../Stanza/EntryLottieOverlay";
+import WaterDropIcon from '@mui/icons-material/WaterDrop';
 
 export default function PersonalizzaStanzaPage() {
   const theme = useTheme();
@@ -117,6 +118,9 @@ export default function PersonalizzaStanzaPage() {
     [0, <LocalFireDepartmentRoundedIcon color="chiaro" />],
     [1, <AutoAwesomeRoundedIcon color="chiaro" />],
     [2, <PaidIcon color="chiaro" />],
+    [3, <img src="/img/celebration.svg"/>],
+    [4, <WaterDropIcon color="chiaro" />],
+    [5, <img src="/img/stella.svg"/>],
   ]);
 
   const nameStyleOptions = [
@@ -219,7 +223,7 @@ export default function PersonalizzaStanzaPage() {
           </Paper>
 
           {/* Section: Name style */}
-          <SectionTitle
+          {/* <SectionTitle
             icon={<FormatColorTextRoundedIcon />}
             title="Stile Nome"
             sx={{ mt: 2.2 }}
@@ -270,7 +274,7 @@ export default function PersonalizzaStanzaPage() {
                 </ToggleButton>
               ))}
             </ToggleButtonGroup>
-          </Paper>
+          </Paper> */}
 
           {/* Section: Name color */}
           <SectionTitle icon={<TextFieldsRoundedIcon />} title="Colore Nome" sx={{ mt: 2.2 }} />
