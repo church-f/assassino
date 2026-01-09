@@ -1,8 +1,9 @@
 import { Paper, Box, Typography, alpha } from "@mui/material";
+import LockIcon from '@mui/icons-material/Lock';
 
 
 
-export default function SelectCard({ selected, onClick, title, icon, styles }) {
+export default function SelectCard({ selected, onClick, title, icon, styles, isFree }) {
   return (
     <Paper
       elevation={0}
@@ -29,7 +30,7 @@ export default function SelectCard({ selected, onClick, title, icon, styles }) {
           borderRadius: 4,
           display: "grid",
           placeItems: "center",
-          bgcolor: alpha(styles.fg, 0.06),
+          bgcolor: isFree ? alpha(styles.fg, 0.06) : alpha('#979797ff', 0.12),
           border: `1px solid ${styles.soft}`,
         }}
       >
@@ -37,8 +38,9 @@ export default function SelectCard({ selected, onClick, title, icon, styles }) {
       </Box>
 
       <Box sx={{ minWidth: 0 }}>
-        <Typography sx={{ fontWeight: 1000, fontSize: 13.5 }} color="primary.secondary">
-          {title}
+        <Typography sx={{ fontWeight: 1000, fontSize: 13.5, display: 'flex', alignItems: 'center', gap: 0.5, justifyContent: 'center' }} color="primary.secondary">
+           {title}
+           {!isFree ? <LockIcon sx={{ fontSize: 16, color: alpha('#fffdfdff', 0.42) }} /> : ''}
         </Typography>
       </Box>
     </Paper>

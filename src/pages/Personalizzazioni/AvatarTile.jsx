@@ -1,10 +1,9 @@
 import { Paper, Box, Avatar, Typography, alpha } from "@mui/material";
-
-import ElderlyIcon from '@mui/icons-material/Elderly';
 import AvatarIcon from "../../components/AvatarIcon";
+import LockIcon from '@mui/icons-material/Lock';
 
 
-export default function AvatarTile({  selected, onClick, label, img, styles, badge }) {
+export default function AvatarTile({ selected, onClick, label, img, styles, badge, isFree }) {
   return (
     <Paper
       elevation={0}
@@ -24,11 +23,11 @@ export default function AvatarTile({  selected, onClick, label, img, styles, bad
     >
       <Box sx={{ position: "relative", display: "grid", placeItems: "center" }}>
         <Avatar
-          
+
           sx={{
             width: 48,
             height: 48,
-            bgcolor: alpha(styles.fg, 0.12),
+            bgcolor: isFree ? alpha(styles.fg, 0.12) : alpha('#979797ff', 0.12),
             border: `1px solid ${styles.soft}`,
           }}
         >
@@ -49,9 +48,12 @@ export default function AvatarTile({  selected, onClick, label, img, styles, bad
           />
         )}
       </Box>
-      <Typography sx={{ mt: 0.8, fontWeight: 950, fontSize: 11.5, opacity: 0.9 }} color="primary.secondary">
-        {label}
-      </Typography>
+      <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 0.5, justifyContent: 'center'}}>
+        {!isFree ? <LockIcon sx={{ fontSize: 16, color: alpha('#fffdfdff', 0.42) }} /> : ''}
+        <Typography sx={{ mt: 0.8, fontWeight: 950, fontSize: 11.5, opacity: 0.9 }} color="primary.secondary">
+          {label}
+        </Typography>
+      </div>
     </Paper>
   );
 }

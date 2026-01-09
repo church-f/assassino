@@ -33,6 +33,7 @@ import PaidIcon from '@mui/icons-material/Paid';
 import { useLottieQueue } from "../Stanza/UsesLottieQueue";
 import { EntryLottieOverlay } from "../Stanza/EntryLottieOverlay";
 import WaterDropIcon from '@mui/icons-material/WaterDrop';
+import { useToast } from '../../components/Toast.jsx';
 
 export default function PersonalizzaStanzaPage() {
   const theme = useTheme();
@@ -40,6 +41,7 @@ export default function PersonalizzaStanzaPage() {
   const { data: user } = useMe();
   let enums = window.Enums || {}
   const qc = useQueryClient();
+  const { showToast } = useToast();
 
   const styles = useMemo(() => {
     const fg = theme.palette.primary.main;
@@ -65,7 +67,9 @@ export default function PersonalizzaStanzaPage() {
   const [Enums, setEnums] = useState({ colors: {}, entrances: {} });
 
   const q = useLottieQueue();
-
+  const [freeAvatar, setFreeAvatar] = useState([0, 1, 2, 3])
+  const [freeEntrances, setFreeEntrances] = useState([0, 1, 2])
+  const [freeColors, setFreeColors] = useState(['blue', 'green'])
   useEffect(() => {
     // apiFetch('/utils/Enums', undefined, (data) => {
     setColorOptions(Object.values(enums.colors));
@@ -74,6 +78,12 @@ export default function PersonalizzaStanzaPage() {
     setNameColor(user?.personalizzazioni.colore.int)
     setAvatar(user?.personalizzazioni.avatar)
     setEntryFx(user?.personalizzazioni.entrata)
+
+    if (user?.plus) {
+      setFreeAvatar(prev => [...prev, ...Object.keys(enums.avatars).map(k => parseInt(k))])
+      setFreeEntrances(prev => [...prev, ...Object.keys(enums.entrances).map(k => parseInt(k))])
+      setFreeColors(prev => [...prev, ...Object.values(enums.colors)])
+    }
   }, [user]);
 
 
@@ -113,14 +123,18 @@ export default function PersonalizzaStanzaPage() {
     })
   };
 
+  const showPlusToast = () => {
+    showToast({ severity: 'info', message: "Sblocca avatar, colori ed effetti esclusivi per farti riconoscere subito.", userId: user.uid, userEmail: user.email  });
+  }
+
 
   const entranceIcons = new Map([
     [0, <LocalFireDepartmentRoundedIcon color="chiaro" />],
     [1, <AutoAwesomeRoundedIcon color="chiaro" />],
     [2, <PaidIcon color="chiaro" />],
-    [3, <img src="/img/celebration.svg"/>],
+    [3, <img src="/img/celebration.svg" />],
     [4, <WaterDropIcon color="chiaro" />],
-    [5, <img src="/img/stella.svg"/>],
+    [5, <img src="/img/stella.svg" />],
   ]);
 
   const nameStyleOptions = [
@@ -129,6 +143,8 @@ export default function PersonalizzaStanzaPage() {
     { id: "regular", label: "Aa", weight: 500 },
     { id: "italic", label: "Aa", weight: 700, italic: true },
   ];
+
+
 
   // const colorOptions = ["yellow", "blue", "red", "#0EA5E9", "#0F172A"];
 
@@ -179,17 +195,19 @@ export default function PersonalizzaStanzaPage() {
             }}
           >
             <Box sx={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", gap: 1.2 }}>
-              {avatarArray.map((a) => (
-                <AvatarTile
+              {avatarArray.map((a) => {
+                let isFree = freeAvatar.includes(a.id);
+                return <AvatarTile
                   key={a.id}
                   selected={avatar === a.id}
-                  onClick={() => setAvatar(a.id)}
+                  onClick={() => isFree ? setAvatar(a.id) : showPlusToast()}
                   label={a.label}
                   img={a.id}
                   styles={styles}
+                  isFree={isFree}
                 // badge={a.badge}
                 />
-              ))}
+              })}
             </Box>
           </Paper>
 
@@ -212,8 +230,13 @@ export default function PersonalizzaStanzaPage() {
                   selected={entryFx === fx.id}
                   onClick={() => {
                     q.enqueue({ type: fx.id });
+                    if (!freeEntrances.includes(fx.id)) {
+                      showPlusToast();
+                      return;
+                    }
                     setEntryFx(fx.id)
                   }}
+                  isFree={freeEntrances.includes(fx.id)}
                   title={fx.label}
                   icon={entranceIcons.get(fx.id)}
                   styles={styles}
@@ -291,10 +314,17 @@ export default function PersonalizzaStanzaPage() {
             <Stack direction="row" spacing={1.2} alignItems="center" sx={{ flexWrap: "wrap" }}>
               {colorOptions.map((c) => (
                 <ColorDot
+                  isFree={freeColors.includes(c)}
                   key={c}
                   color={c}
                   selected={nameColor === c}
-                  onClick={() => setNameColor(c)}
+                  onClick={() => {
+                    if (!freeColors.includes(c)) {
+                      showPlusToast();
+                      return;
+                    }
+                    setNameColor(c)
+                  }}
                   styles={styles}
                 />
               ))}

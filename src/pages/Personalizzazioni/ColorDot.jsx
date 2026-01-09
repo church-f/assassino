@@ -1,8 +1,9 @@
 import { Box, Typography, alpha } from "@mui/material";
+import LockIcon from '@mui/icons-material/Lock';
 
 
 
-export default function ColorDot({ color, selected, onClick, styles, dashed, label }) {
+export default function ColorDot({ color, selected, onClick, styles, dashed, label, isFree }) {
   return (
     <Box
       onClick={onClick}
@@ -31,6 +32,7 @@ export default function ColorDot({ color, selected, onClick, styles, dashed, lab
           : null),
       }}
     >
+      {!isFree ? <LockIcon sx={{ fontSize: 16, color: alpha(styles.fg, 0.6) }} /> : ''}
       {label ? <Typography sx={{ fontWeight: 1000, fontSize: 14 }}>{label}</Typography> : null}
     </Box>
   );

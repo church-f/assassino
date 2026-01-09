@@ -1,6 +1,7 @@
 import React, { createContext, useCallback, useContext, useMemo, useState } from "react";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
+import { startCheckout } from "../api";
 
 /**
  * @typedef {"success"|"info"|"warning"|"error"} Severity
@@ -29,6 +30,8 @@ export function ToastProvider({ children }) {
     autoHideDuration: 3500,
     vertical: "bottom",
     horizontal: "center",
+    userId: null,
+    userEmail: null,
   });
 
   const showToast = useCallback((opts) => {
@@ -68,6 +71,11 @@ export function ToastProvider({ children }) {
           sx={{ width: "100%" }}
         >
           {toast.message}
+          {toast.severity === 'info' && toast.userId && toast.userEmail ? (
+            <div style={{ marginTop: 8 }}>
+              <button onClick={() => startCheckout(toast.userId, toast.userEmail)}>Upgrade to Plus</button>
+            </div>
+          ) : null}
         </Alert>
       </Snackbar>
     </ToastContext.Provider>
