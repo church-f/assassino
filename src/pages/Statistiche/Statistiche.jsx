@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { use, useMemo } from "react";
 import {
     Avatar,
     Box,
@@ -29,12 +29,17 @@ import PeopleIcon from '@mui/icons-material/People';
 import LocalPoliceIcon from '@mui/icons-material/LocalPolice';
 import LockOutlineIcon from '@mui/icons-material/LockOutline';
 import AvatarIcon from "../../components/AvatarIcon.jsx";
+import { useToast } from '../../components/Toast.jsx';
+import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
+import { Button } from "@mui/material";
+import { startCheckout } from "../../api.js";
 
 export default function StatistichePage() {
     const theme = useTheme();
     const { data: user } = useMe();
     const navigate = useNavigate();
     const stastistiche = user?.statistiche || {};
+    const { showToast } = useToast();
 
     // Demo data (aggancia ai tuoi dati reali)
     const player = {
@@ -72,6 +77,10 @@ export default function StatistichePage() {
     const onShare = () => {
         // TODO: share
     };
+
+    const showPlusToast = () => {
+        showToast({ severity: 'info', message: "Sblocca avatar, colori ed effetti esclusivi per farti riconoscere subito.", userId: user.uid, userEmail: user.email });
+    }
 
     return (
         <>
@@ -174,32 +183,65 @@ export default function StatistichePage() {
                             {/* Totals */}
                             <Box sx={{ mt: 2.5, display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 1.2 }}>
                                 <MiniStat
-                                    icon={<SportsEsportsRoundedIcon color='chiaro'/>}
+                                    icon={<SportsEsportsRoundedIcon color='chiaro' />}
                                     label="PARTITE"
                                     value={player.totals.played}
                                     styles={styles}
                                     plus={true}
+                                    user={user}
+                                    showPlusToast={showPlusToast}
                                 />
                                 <MiniStat
-                                    icon={<EmojiEventsRoundedIcon color='chiaro'/>}
+                                    icon={<EmojiEventsRoundedIcon color='chiaro' />}
                                     label="VINTE"
                                     value={player.totals.wins}
                                     styles={styles}
                                     plus={user.plus}
+                                    user={user}
+                                    showPlusToast={showPlusToast}
                                 />
                                 <MiniStat
-                                    icon={<CloseRoundedIcon color='chiaro'/>}
+                                    icon={<CloseRoundedIcon color='chiaro' />}
                                     label="PERSE"
                                     value={player.totals.losses}
                                     styles={styles}
                                     tone="danger"
                                     plus={user.plus}
+                                    user={user}
+                                    showPlusToast={showPlusToast}
                                 />
                             </Box>
                             {
-                                !user.plus && <Typography sx={{ margin: '15px 0' }}>
-                                    Passa al <p style={{ display: 'inline', fontWeight: 'bold' }}>Plus</p> per sbloccare tutte le statistiche!
-                                </Typography>
+                                !user.plus && <>
+                                    <Typography sx={{ margin: '15px 0' }}>
+                                        Passa al <p style={{ display: 'inline', fontWeight: 'bold' }}>Plus</p> per sbloccare tutte le statistiche!
+                                    </Typography>
+                                    <Button
+                                        onClick={() => {
+                                            startCheckout(user.uid, user.email);
+                                        }}
+                                        variant="contained"
+                                        fullWidth
+                                        endIcon={<ChevronRightRoundedIcon />}
+                                        sx={{
+                                            mt: 2,
+                                            height: 52,
+                                            borderRadius: 999,
+                                            fontWeight: 900,
+                                            letterSpacing: 0.8,
+                                            textTransform: "uppercase",
+                                            boxShadow: "none",
+                                            color: "#0b2533",
+                                            background: "linear-gradient(180deg, #F7D774 0%, #D8A63A 100%)",
+                                            "&:hover": {
+                                                background: "linear-gradient(180deg, #FFE08B 0%, #C8942F 100%)",
+                                            },
+                                        }}
+
+                                    >
+                                        Sblocca le statistiche
+                                    </Button>
+                                </>
                             }
 
                             {/* Role stats */}
@@ -215,6 +257,8 @@ export default function StatistichePage() {
                                     gradient="linear-gradient(135deg, rgba(185,28,28,1) 0%, rgba(127,29,29,1) 100%)"
                                     styles={styles}
                                     plus={user.plus}
+                                    user={user}
+                                    showPlusToast={showPlusToast}
                                 />
                                 <RoleCard
                                     title="RIANIMATRICE"
@@ -223,6 +267,8 @@ export default function StatistichePage() {
                                     gradient="linear-gradient(135deg, rgba(2,132,199,1) 0%, rgba(3,105,161,1) 100%)"
                                     styles={styles}
                                     plus={user.plus}
+                                    user={user}
+                                    showPlusToast={showPlusToast}
                                 />
                                 <RoleCard
                                     title="SBIRRO"
@@ -231,6 +277,8 @@ export default function StatistichePage() {
                                     gradient="linear-gradient(135deg, rgba(59,130,246,1) 0%, rgba(37,99,235,1) 100%)"
                                     styles={styles}
                                     plus={user.plus}
+                                    user={user}
+                                    showPlusToast={showPlusToast}
                                 />
                                 <RoleCard
                                     title="COMPLICE"
@@ -239,6 +287,8 @@ export default function StatistichePage() {
                                     gradient="linear-gradient(135deg, rgba(220,38,38,1) 0%, rgba(153,27,27,1) 100%)"
                                     styles={styles}
                                     plus={user.plus}
+                                    user={user}
+                                    showPlusToast={showPlusToast}
                                 />
                             </Box>
 
@@ -251,6 +301,11 @@ export default function StatistichePage() {
                                     borderRadius: 5,
                                     bgcolor: styles.card,
                                     border: `1px solid ${styles.soft}`,
+                                }}
+                                onClick={() => {
+                                    if (!user.plus) {
+                                        showPlusToast(user.uid, user.email);
+                                    }
                                 }}
                             >
                                 <Stack direction="row" alignItems="center" justifyContent="space-between">
@@ -312,7 +367,7 @@ export default function StatistichePage() {
 
 }
 
-function MiniStat({ icon, label, value, styles, tone, plus }) {
+function MiniStat({ icon, label, value, styles, tone, plus, user, showPlusToast }) {
     const toneColor =
         tone === "danger" ? "rgba(239,68,68,0.14)" : alpha(styles.fg, 0.06);
 
@@ -325,6 +380,11 @@ function MiniStat({ icon, label, value, styles, tone, plus }) {
                 bgcolor: styles.card,
                 border: `1px solid ${styles.soft}`,
                 textAlign: "center",
+            }}
+            onClick={() => {
+                if (!plus) {
+                    showPlusToast(user.uid, user.email);
+                }
             }}
         >
             <Box
@@ -353,7 +413,7 @@ function MiniStat({ icon, label, value, styles, tone, plus }) {
     );
 }
 
-function RoleCard({ title, value, icon, gradient, styles, plus }) {
+function RoleCard({ title, value, icon, gradient, styles, plus, user, showPlusToast }) {
     return (
         <Paper
             elevation={0}
@@ -363,6 +423,11 @@ function RoleCard({ title, value, icon, gradient, styles, plus }) {
                 border: `1px solid ${styles.soft}`,
                 boxShadow: "0 18px 60px rgba(0,0,0,0.10)",
                 position: "relative",
+            }}
+            onClick={() => {
+                if (!plus) {
+                    showPlusToast(user.uid, user.email);
+                }   
             }}
         >
             <Box

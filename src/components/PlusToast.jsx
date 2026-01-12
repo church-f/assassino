@@ -1,76 +1,13 @@
-import React, { createContext, useCallback, useContext, useMemo, useState } from "react";
-import Snackbar from "@mui/material/Snackbar";
-import Alert from "@mui/material/Alert";
-import { startCheckout } from "../api";
-// import Button from "@mui/material/Button";
-import PlusToast from "./PlusToast";
-
 import { Paper, Box, Typography, Button } from "@mui/material";
 import WorkspacePremiumRoundedIcon from "@mui/icons-material/WorkspacePremiumRounded";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
 
-/**
- * @typedef {"success"|"info"|"warning"|"error"} Severity
- *
- * @typedef ToastOptions
- * @property {Severity} severity
- * @property {string} message
- * @property {boolean=} persist         // se true non si chiude da solo
- * @property {boolean=} hideIcon
- * @property {boolean=} closable
- * @property {number=} autoHideDuration // ms
- * @property {"top"|"bottom"=} vertical
- * @property {"left"|"center"|"right"=} horizontal
- */
+export default function PlusToast({  onClose, onUpgrade }) {
 
-const ToastContext = createContext(null);
+    return (
 
-export function ToastProvider({ children }) {
-  const [toast, setToast] = useState({
-    open: false,
-    severity: "info",
-    message: "",
-    persist: false,
-    hideIcon: false,
-    closable: true,
-    autoHideDuration: 5000,
-    vertical: "bottom",
-    horizontal: "center",
-    userId: null,
-    userEmail: null,
-  });
 
-  const showToast = useCallback((opts) => {
-    setToast((prev) => ({
-      ...prev,
-      ...opts,
-      open: true,
-      // fallback sensati
-      autoHideDuration:
-        opts?.persist ? null : (opts?.autoHideDuration ?? prev.autoHideDuration),
-    }));
-  }, []);
-
-  const closeToast = useCallback((_, reason) => {
-    // evita che si chiuda cliccando fuori se vuoi
-    if (reason === "clickaway") return;
-    setToast((t) => ({ ...t, open: false }));
-  }, []);
-
-  const value = useMemo(() => ({ showToast }), [showToast]);
-
-  return (
-    <ToastContext.Provider value={value}>
-      {children}
-
-      <Snackbar
-        open={toast.open}
-        onClose={closeToast}
-        autoHideDuration={toast.persist ? null : toast.autoHideDuration}
-        anchorOrigin={{ vertical: toast.vertical, horizontal: toast.horizontal }}
-      >
-        {toast.severity === 'info' && toast.userId && toast.userEmail ? (
-          <Paper
+        <Paper
             elevation={0}
             sx={{
                 width: { xs: "92vw", sm: 420 },
@@ -131,7 +68,7 @@ export function ToastProvider({ children }) {
             <Button
                 onClick={() => {
                     close();
-                    startCheckout(toast.userId, toast.userEmail);
+                    onUpgrade?.();
                 }}
                 variant="contained"
                 fullWidth
@@ -155,27 +92,6 @@ export function ToastProvider({ children }) {
                 PASSA A PLUS
             </Button>
         </Paper>
-        ) :
-          <Alert
-            onClose={toast.closable ? closeToast : undefined}
-            severity={toast.severity}
-            variant="filled"
-            icon={toast.hideIcon ? false : undefined}
-            sx={{ width: "100%" }}
-          >
-            {toast.message}
+    )
 
-          </Alert>
-        }
-      </Snackbar>
-    </ToastContext.Provider>
-  );
-}
-
-export function useToast() {
-  const ctx = useContext(ToastContext);
-  if (!ctx) {
-    throw new Error("useToast deve essere usato dentro <ToastProvider />");
-  }
-  return ctx;
 }
