@@ -23,24 +23,27 @@ export default function SelectCard({ selected, onClick, title, icon, styles, isF
         gap: 1.1,
       }}
     >
-      <Box
-        sx={{
-          width: 40,
-          height: 40,
-          borderRadius: 4,
-          display: "grid",
-          placeItems: "center",
-          bgcolor: isFree ? alpha(styles.fg, 0.06) : alpha('#979797ff', 0.12),
-          border: `1px solid ${styles.soft}`,
-        }}
-      >
-        {icon}
-      </Box>
+      <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+
+        <Box
+          sx={{
+            width: 40,
+            height: 40,
+            borderRadius: 4,
+            display: "grid",
+            placeItems: "center",
+            bgcolor: isFree ? alpha(styles.fg, 0.06) : alpha('#979797ff', 0.12),
+            border: `1px solid ${styles.soft}`,
+          }}
+        >
+          {icon}
+        </Box>
+        {!isFree ? <LockIcon sx={{ fontSize: 16, color: alpha('#fffdfdff', 0.42), marginTop: '-8px' }} /> : ''}
+      </div>
 
       <Box sx={{ minWidth: 0 }}>
         <Typography sx={{ fontWeight: 1000, fontSize: 13.5, display: 'flex', alignItems: 'center', gap: 0.5, justifyContent: 'center' }} color="primary.secondary">
-           {title}
-           {!isFree ? <LockIcon sx={{ fontSize: 16, color: alpha('#fffdfdff', 0.42) }} /> : ''}
+          {title}
         </Typography>
       </Box>
     </Paper>
