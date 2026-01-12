@@ -24,6 +24,10 @@ import AvatarIcon from "../../components/AvatarIcon.jsx";
 
 import { useLottieQueue } from "./UsesLottieQueue";
 import { EntryLottieOverlay } from "./EntryLottieOverlay";
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import { IconButton } from "@mui/material";
+import { useToast } from "../../components/Toast.jsx";
+import { useNavigate } from "react-router-dom";
 
 const url = import.meta.env.VITE_API_URL;
 
@@ -32,10 +36,12 @@ export default function Stanza() {
     const [room, setRoom] = useState(null);
     const playerId = localStorage.getItem("playerId");
     const isAdmin = JSON.parse(localStorage.getItem("isAdmin") || "false");
+    const { showToast } = useToast();
+    const navigate = useNavigate();
 
     const q = useLottieQueue();
 
-    
+
 
     useEffect(() => {
         if (!roomCode || !playerId) {
@@ -54,6 +60,16 @@ export default function Stanza() {
             socket.on("room-updated", (room) => setRoom(room));
             socket.on('room-joined', (payload) => {
                 q.enqueue({ type: payload.entrata, playerId: payload.playerId, name: payload.playerName });
+            })
+            socket.on("force-disconnect", (payload) => {
+                socket.disconnect();
+                setRoom(null);
+                localStorage.removeItem("playerId");
+                localStorage.removeItem("isAdmin");
+                if(payload.kick){
+                    showToast({ message: 'Sei stato disconnesso dalla stanza.', severity: 'info' });
+                }
+                navigate("/home");
             })
         });
 
@@ -110,7 +126,7 @@ export default function Stanza() {
     }
 
 
-    function getColor(num){
+    function getColor(num) {
         return window.Enums.colors[num];
     }
 
@@ -150,7 +166,7 @@ export default function Stanza() {
                                     Stanza
                                 </Typography>
 
-                                <Chip
+                                {/* <Chip
                                     label={roomCode}
                                     sx={{
                                         ml: 0.5,
@@ -160,7 +176,7 @@ export default function Stanza() {
                                         border: "1px solid rgba(255,255,255,0.14)",
                                         color: "primary.main",
                                     }}
-                                />
+                                /> */}
 
                                 <Box sx={{ flex: 1 }} />
 
@@ -179,9 +195,38 @@ export default function Stanza() {
                                 ) : null}
                             </Stack>
 
-                            <Typography sx={{ opacity: 0.75, fontSize: 13.5 }} color="primary.secondary">
-                                {connectedCount} giocatori connessi. In attesa dell’avvio…
-                            </Typography>
+                            <Box>
+                                <Typography sx={{ fontSize: 18, opacity: 0.85 }} color="chiaro">
+                                    Codice stanza:
+                                    <Box
+                                        component="span"
+                                        sx={{
+                                            ml: 0.5,
+                                            fontWeight: 900,
+                                            letterSpacing: 1.5,
+                                            bgcolor: "rgba(255,255,255,0.10)",
+                                            border: "1px solid rgba(255,255,255,0.14)",
+                                            color: "primary.main",
+                                            px: 1,
+                                            py: 0.25,
+                                            borderRadius: 1,
+                                        }}
+                                    >
+                                        {roomCode}
+                                        <IconButton
+                                            size="small"
+                                            sx={{ ml: 0.5, color: "primary.main" }}
+                                            onClick={() => {
+                                                navigator.clipboard.writeText(roomCode);
+                                                showToast({ message: 'Codice stanza copiato negli appunti!', severity: 'success' });
+                                            }}
+                                        >
+                                            <ContentCopyIcon sx={{ fontSize: 16 }} />
+                                        </IconButton>
+
+                                    </Box>
+                                </Typography>
+                            </Box>
                         </Stack>
 
                         {/* Card lista giocatori */}
@@ -198,16 +243,20 @@ export default function Stanza() {
                                 <Typography sx={{ fontWeight: 950, fontSize: 14.5 }} color="primary.secondary">
                                     Giocatori
                                 </Typography>
-                                <Chip
-                                    size="small"
-                                    label={`${connectedCount}`}
-                                    sx={{
-                                        fontWeight: 900,
-                                        bgcolor: "rgba(255,255,255,0.10)",
-                                        border: "1px solid rgba(255,255,255,0.14)",
-                                        color: "primary.main",
-                                    }}
-                                />
+                                <div style={{ display: 'flex', flexDirection: 'row', gap: '5px', alignItems: 'center', justifyContent: 'center' }}>
+
+                                    <Chip
+                                        size="small"
+                                        label={`${connectedCount}`}
+                                        sx={{
+                                            fontWeight: 900,
+                                            bgcolor: "rgba(255,255,255,0.10)",
+                                            border: "1px solid rgba(255,255,255,0.14)",
+                                            color: "primary.main",
+                                        }}
+                                    />
+                                    <Typography color="chiaro" fontSize='12px'>Min. 4</Typography>
+                                </div>
                             </Stack>
 
                             <Divider sx={{ my: 1.5, borderColor: "rgba(255,255,255,0.12)" }} />
@@ -289,6 +338,7 @@ export default function Stanza() {
                                     <Button
                                         fullWidth
                                         onClick={startGame}
+                                        // disabled={connectedCount < 4}
                                         startIcon={<PlayArrowRoundedIcon />}
                                         sx={{
                                             py: 1.2,

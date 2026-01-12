@@ -25,6 +25,7 @@ import { apiFetch } from "../../api.js";
 import { useNavigate } from "react-router-dom";
 import EndGameDialog from "./EndGameDialog.jsx";
 import { useToast } from "../../components/Toast.jsx";
+import LogoutIcon from '@mui/icons-material/Logout';
 
 export default function Gioco(props) {
   const navigate = useNavigate();
@@ -51,17 +52,14 @@ export default function Gioco(props) {
     });
   };
 
-  const leaveGame = () => {
+  const leaveGame = (playerId, kick) => {
     // chiamata API per lasciare la partita
     apiFetch(
       `/rooms/${props.room.code}/leave`,
       {
         method: "POST",
-        body: { playerId: props.playerId },
+        body: { playerId: playerId, kick },
       },
-      () => {
-        navigate("/home");
-      }
     );
   };
 
@@ -78,6 +76,8 @@ export default function Gioco(props) {
 
   // UI helper (solo presentazione)
   const roleLabel = (myRole || "In attesa…").toUpperCase();
+
+
 
   return (
     <Box
@@ -301,7 +301,7 @@ export default function Gioco(props) {
             <Button
               fullWidth
               variant="outlined"
-              onClick={leaveGame}
+              onClick={() => leaveGame(props.playerId, false)}
               startIcon={<LogoutRoundedIcon />}
               color="error"
               sx={{
@@ -345,14 +345,28 @@ export default function Gioco(props) {
                         ? "rgba(0,0,0,0.06)"
                         : "rgba(0,0,0,0.03)",
                     border: "1px solid rgba(0,0,0,0.08)",
+                    display: "flex",
+                    alignItems: "center",
+                    flexDirection: "row",
+                    justifyContent: "space-between",
                   }}
                 >
                   <Typography sx={{ fontWeight: 900, fontSize: 14 }}>
                     {p.name} {p.playerId === props.playerId && "(Tu)"}
                   </Typography>
-                  <Typography sx={{ opacity: 0.65, fontSize: 12.5 }}>
+                  {/* <Typography sx={{ opacity: 0.65, fontSize: 12.5 }}>
                     ID: {p.playerId.slice(0, 6)}…
-                  </Typography>
+                  </Typography> */}
+
+                  <IconButton
+                    size="small"
+                    color="error"
+                    disabled={p.playerId === props.playerId || !isAdmin}
+                    onClick={() => leaveGame(p.playerId, true)}
+                    aria-label={`Espelli ${p.name}`}
+                  >
+                    <LogoutIcon fontSize="small" />
+                  </IconButton>
                 </Paper>
               ))}
             </Stack>
