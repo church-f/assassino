@@ -48,8 +48,8 @@ export default function AvatarTile({ selected, onClick, label, img, styles, badg
           />
         )}
       </Box>
-      <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 0.5, justifyContent: 'center'}}>
-        {!isFree ? <LockIcon sx={{ fontSize: 16, color: alpha('#fffdfdff', 0.42) }} /> : ''}
+      <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0.5, justifyContent: 'center'}}>
+        {!isFree ? <LockIcon sx={{ fontSize: 16, color: alpha('#fffdfdff', 0.42), marginTop: '-10px' }} /> : ''}
         <Typography sx={{ mt: 0.8, fontWeight: 950, fontSize: 11.5, opacity: 0.9 }} color="primary.secondary">
           {label}
         </Typography>
