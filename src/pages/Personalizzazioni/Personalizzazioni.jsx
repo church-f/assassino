@@ -34,6 +34,7 @@ import { useLottieQueue } from "../Stanza/UsesLottieQueue";
 import { EntryLottieOverlay } from "../Stanza/EntryLottieOverlay";
 import WaterDropIcon from '@mui/icons-material/WaterDrop';
 import { useToast } from '../../components/Toast.jsx';
+import AvatarIcon from "../../components/AvatarIcon.jsx";
 
 export default function PersonalizzaStanzaPage() {
   const theme = useTheme();
@@ -124,7 +125,7 @@ export default function PersonalizzaStanzaPage() {
   };
 
   const showPlusToast = () => {
-    showToast({ severity: 'info', message: "Sblocca avatar, colori ed effetti esclusivi per farti riconoscere subito.", userId: user.uid, userEmail: user.email  });
+    showToast({ severity: 'info', message: "Sblocca avatar, colori ed effetti esclusivi per farti riconoscere subito.", userId: user.uid, userEmail: user.email });
   }
 
 
@@ -143,6 +144,11 @@ export default function PersonalizzaStanzaPage() {
     { id: "regular", label: "Aa", weight: 500 },
     { id: "italic", label: "Aa", weight: 700, italic: true },
   ];
+
+
+  function getColor(num) {
+    return window.Enums.colors[num];
+  }
 
 
 
@@ -180,7 +186,51 @@ export default function PersonalizzaStanzaPage() {
           </Stack>
 
           {/* Preview card */}
+          <Paper
+            elevation={0}
+            sx={{
+              p: 1.25,
+              borderRadius: 4,
+              bgcolor: "rgba(255,255,255,0.10)",
+              border: "1px solid rgba(255,255,255,0.10)",
+              display: "flex",
+              alignItems: "center",
+              gap: 1.2,
+            }}
+          >
+            <Box
+              sx={{
+                width: 36,
+                height: 36,
+                borderRadius: 3,
+                display: "grid",
+                placeItems: "center",
+                bgcolor: "rgba(255,255,255,0.08)",
+                border: "1px solid rgba(255,255,255,0.10)",
+              }}
+            >
+              {/* <PersonOutlineIcon sx={{ opacity: 0.85 }} color="chiaro" /> */}
+              <AvatarIcon id={avatar} style={{ color: nameColor }} />
+            </Box>
 
+            <Box sx={{ minWidth: 0, flex: 1 }}>
+              <Typography
+                sx={{
+                  fontWeight: 900,
+                  fontSize: 14,
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                }}
+                color={nameColor}
+              >
+                {user.displayName}
+              </Typography>
+
+
+            </Box>
+
+          </Paper>
 
           {/* Section: Avatar */}
           <SectionTitle icon={<PersonRoundedIcon />} title="Scegli Avatar" sx={{ mt: 2.3 }} />
